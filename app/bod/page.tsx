@@ -72,7 +72,7 @@ export default function BoardOfDirectorsPage() {
             </section>
 
             {/* Directors Grid */}
-            <section className="px-4 py-16">
+            <section className="px-4 py-7 md:py-16">
                 <div className="max-w-7xl mx-auto">
                     <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-10">
                         {directors.map((director, index) => (
