@@ -58,7 +58,7 @@
       }
 
     h2 {
-        font: var(--text-3xl, --tracking-tighter --text-balance) / 1.5 "Poppins", sans-serif;
+        font: var(--text-xl, --tracking-tighter --text-balance) / 1.5 "Poppins", sans-serif;
         font-weight: 500;
         color: var(--color-gray-900);
     }
