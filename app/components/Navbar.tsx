@@ -117,7 +117,7 @@ const Navbar = () => {
               <div key={item.label} className="relative group">
                 <button
                   onClick={() => toggleDropdown(item.label)}
-                  className="flex items-center gap-1 text-gray-50 dark:text-white text-lg hover:text-[#7AA859] dark:hover:text-[#7AA859] transition font-poppins"
+                  className="flex items-center gap-1 text-gray-50 dark:text-white text-base hover:text-[#7AA859] dark:hover:text-[#7AA859] transition font-poppins"
                 >
                   {item.label}
                   <FiChevronDown className="mt-0.5 transform transition-transform duration-200 group-hover:rotate-180" />
@@ -127,7 +127,7 @@ const Navbar = () => {
                     <Link
                       key={subItem.label}
                       href={subItem.href}
-                      className="block px-4 py-2 text-gray-700 dark:text-gray-300 text-lg hover:bg-gray-100 dark:hover:bg-gray-700 font-poppins"
+                      className="block px-4 py-2 text-gray-700 dark:text-gray-300 text-base hover:bg-gray-100 dark:hover:bg-gray-700 font-poppins"
                     >
                       {subItem.label}
                     </Link>
@@ -138,7 +138,7 @@ const Navbar = () => {
               <Link
                 key={item.label}
                 href={item.href}
-                className={`text-gray-50 dark:text-white text-lg hover:text-[#7AA859] dark:hover:text-[#7AA859] transition font-poppins ${pathname === item.href ? 'font-semibold' : ''}`}
+                className={`text-gray-50 dark:text-white text-base hover:text-[#7AA859] dark:hover:text-[#7AA859] transition font-poppins ${pathname === item.href ? 'font-semibold' : ''}`}
               >
                 {item.label}
               </Link>
@@ -148,7 +148,7 @@ const Navbar = () => {
           {/* Dark Mode Toggle for Desktop */}
           <button
             onClick={toggleDarkMode}
-            className="text-lg text-white dark:text-white"
+            className="text-base text-white dark:text-white"
             aria-label="Toggle Dark Mode"
           >
             {isDarkMode ? <FiSun /> : <FiMoon />}
@@ -164,7 +164,7 @@ const Navbar = () => {
               <div key={item.label}>
                 <button
                   onClick={() => toggleDropdown(item.label)}
-                  className="flex items-center justify-between w-full text-left py-2 text-gray-800 dark:text-white text-lg font-medium"
+                  className="flex items-center justify-between w-full text-left py-2 text-gray-800 dark:text-white text-base font-medium"
                 >
                   {item.label}
                   <FiChevronDown
@@ -178,7 +178,7 @@ const Navbar = () => {
                         key={subItem.label}
                         href={subItem.href}
                         onClick={() => setMobileMenuOpen(false)} // Close menu on link click
-                        className="block text-lg text-gray-600 dark:text-gray-300 hover:text-[#7AA859] dark:hover:text-[#7AA859]"
+                        className="block text-base text-gray-600 dark:text-gray-300 hover:text-[#7AA859] dark:hover:text-[#7AA859]"
                       >
                         {subItem.label}
                       </Link>
@@ -191,7 +191,7 @@ const Navbar = () => {
                 key={item.label}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)} // Close menu on link click
-                className="block py-2 text-lg font-medium font-poppins text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400"
+                className="block py-2 text-base font-medium font-poppins text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400"
               >
                 {item.label}
               </Link>
