@@ -49,7 +49,7 @@ export default function AboutUsPage() {
                         </p>
                     </div>
                     <div className="bg-white dark:bg-gray-900 h-auto rounded-2xl overflow-hidden">
-                        <h2 className="text-3xl font-semibold text-gray-900 dark:text-white">Why Choose Us?</h2>
+                        <h2 className="text-3xl text-gray-900 dark:text-white">Why Choose Us?</h2>
 
                         <ul className="space-y-4 pt-4 text-gray-600 dark:text-gray-300">
                             {[
