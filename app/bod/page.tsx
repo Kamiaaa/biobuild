@@ -44,7 +44,7 @@ export default function BoardOfDirectorsPage() {
         <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
             {/* Hero Section */}
             <section className="px-4 py-20 text-center bg-gray-100 dark:bg-gray-800">
-                <h2 className='text-center py-10'>
+                <h2 className='text-center text-xl md:text-3xl py-10'>
                     <span className="relative inline-block text-gray-900 dark:text-gray-50">
                         Board of Directors
                         {/* Before and after lines with rings and a star in the center */}
