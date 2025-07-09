@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react'
-import { FaWalkieTalkie } from "react-icons/fa6";
+import { RiArtboard2Fill } from "react-icons/ri";
 interface BoardOfDirectorsPage {
     name: string;
     title: string;
@@ -56,7 +56,7 @@ export default function BoardOfDirectorsPage() {
                             </div>
                             {/* Center Icon */}
                             <span className="z-20 bg-gray-50 dark:bg-gray-800 px-1">
-                                <FaWalkieTalkie className="w-6 h-6 sm:w-8 sm:h-8 text-[#7AA859]" />
+                                <RiArtboard2Fill className="w-6 h-6 sm:w-8 sm:h-8 text-[#7AA859]" />
                             </span>
                             {/* Right Line and Ring */}
                             <div className="relative flex items-center">
