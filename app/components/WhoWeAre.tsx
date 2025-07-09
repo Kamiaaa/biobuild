@@ -10,7 +10,7 @@ export default function AboutUsPage() {
             <section className="px-4 py-20 text-center bg-gray-100 dark:bg-gray-800">
                 <h2 className='text-center py-10'>
                     <span className="relative inline-block text-gray-900 dark:text-gray-50">
-                        About Company Name
+                        About Biobuild
                         {/* Before and after lines with rings and a star in the center */}
                         <span className="absolute inset-x-0 -bottom-10 flex items-center justify-center z-10">
                             {/* Left Line and Ring */}
