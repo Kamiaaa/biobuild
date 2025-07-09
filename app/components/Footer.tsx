@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
 
         {/* Services */}
         <div>
-          <h2 className="text-gray-300 mb-4">Our Projects</h2>
+          <h3 className="text-gray-300 mb-4">Our Projects</h3>
           <ul className="space-y-2 text-gray-400 text-lg">
             <li>
               <Link href="/residential">Residential Communities</Link>
@@ -41,7 +41,7 @@ const Footer: React.FC = () => {
 
         {/* Quick Links */}
         <div>
-          <h2 className="text-gray-300 mb-4">Quick Links</h2>
+          <h3 className="text-gray-300 mb-4">Quick Links</h3>
           <ul className="space-y-2 text-gray-400 text-lg">
             <li>
               <Link href="/about">About Us</Link>
@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
 
         {/* Contact Info */}
         <div>
-          <h2 className="text-gray-300 mb-4">Contact Us</h2>
+          <h3 className="text-gray-300 mb-4">Contact Us</h3>
           <div className="space-y-4">
             <div className="flex items-start gap-3">
               <FaMapMarkerAlt className="text-gray-400 mt-1 flex-shrink-0" />
