@@ -103,7 +103,7 @@ const Footer: React.FC = () => {
 
       {/* Footer Bottom */}
       <div className="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
-        <p className='text-gray-50'>&copy; {new Date().getFullYear()} BIOBUILD Development Ltd. All rights reserved.</p>
+        <p className='text-gray-50 text-sm'>&copy; {new Date().getFullYear()} BIOBUILD Development Ltd. All rights reserved.</p>
         {/* <p className="mt-2 text-sm">Building the future, sustainably.</p> */}
       </div>
     </footer>
