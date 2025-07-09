@@ -51,7 +51,7 @@ export default function AboutUsPage() {
                     <div className="bg-white dark:bg-gray-900 h-auto rounded-2xl overflow-hidden">
                         <h2 className="text-3xl font-semibold text-gray-900 dark:text-white">Why Choose Us?</h2>
 
-                        <ul className="space-y-4 pt-4">
+                        <ul className="space-y-4 pt-4 text-gray-600 dark:text-gray-300">
                             {[
                                 "Proven Track Record: With years of industry experience, we’ve successfully delivered numerous high-quality projects—on time and within budget. Our portfolio reflects our commitment to excellence in both residential and commercial development.",
                                 "Cutting-Edge Design & Technology: We blend modern architecture with smart technology solutions to create future-ready spaces. From eco-friendly materials to smart home integrations, innovation drives everything we build.",
