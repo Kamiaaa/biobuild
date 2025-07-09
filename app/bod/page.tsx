@@ -89,7 +89,7 @@ export default function BoardOfDirectorsPage() {
                                 <p className="text-[#7AA859] dark:text-[#7aa859e3] text-sm mb-2">{director.title}</p>
                                 <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">{director.bio}</p>
                                 <button className="px-4 py-2 bg-[#7AA859] hover:bg-[#6a974f] text-white rounded-lg transition-colors duration-300 text-sm">
-                                    <Link href={director.link}>View Profile</Link>
+                                    <Link href={director.link}>View Details</Link>
                                 </button>
                             </div>
                         ))}
