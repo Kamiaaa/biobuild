@@ -124,7 +124,7 @@ const CuratedCollaborations: React.FC = () => {
       <div className="hidden md:grid md:grid-cols-4 gap-6 px-6 pt-10">
         {brands.map((brand, index) => {
           const isEffected = index % 4 === 0 || index % 4 === 2;
-          const offsetY = isVisible && isEffected ? 70 : 0;
+          const offsetY = isVisible && isEffected ? 200 : 0;
 
           return (
             <button
