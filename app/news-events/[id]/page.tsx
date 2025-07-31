@@ -18,6 +18,9 @@ export default async function Page({
 }: {
   params: { id: string };
 }) {
+  // ✅ do not use: const { id } = await params;
+  // ✅ just use: params.id
+
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/news-events/${params.id}`, {
     cache: 'no-store',
   });
