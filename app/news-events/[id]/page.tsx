@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import { Metadata, ResolvingMetadata } from 'next';
 
 interface NewsEvent {
   _id: string;
@@ -12,7 +13,12 @@ interface NewsEvent {
   location?: string;
 }
 
-export default async function NewsEventDetailsPage({ params }: { params: { id: string } }) {
+// ✅ Correct typing based on App Router
+type PageProps = {
+  params: { id: string };
+};
+
+export default async function NewsEventDetailsPage({ params }: PageProps) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/news-events/${params.id}`, {
     cache: 'no-store',
   });
@@ -24,7 +30,9 @@ export default async function NewsEventDetailsPage({ params }: { params: { id: s
   return (
     <div className="max-w-4xl mx-auto px-4 py-12 text-gray-800 dark:text-gray-100">
       <h1 className="text-3xl md:text-4xl font-bold mb-4">{newsEvent.title}</h1>
-      <p className="text-sm text-gray-500 mb-6">{newsEvent.date} {newsEvent.location && `| ${newsEvent.location}`}</p>
+      <p className="text-sm text-gray-500 mb-6">
+        {newsEvent.date} {newsEvent.location && `| ${newsEvent.location}`}
+      </p>
 
       <div className="w-full h-64 md:h-96 relative mb-8 rounded-lg overflow-hidden">
         <Image
