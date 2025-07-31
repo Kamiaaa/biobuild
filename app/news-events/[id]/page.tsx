@@ -1,3 +1,4 @@
+// app/news-events/[id]/page.tsx
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 
@@ -12,7 +13,7 @@ interface NewsEvent {
   location?: string;
 }
 
-export default async function NewsEventDetailsPage({
+export default async function Page({
   params,
 }: {
   params: { id: string };
