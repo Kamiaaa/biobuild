@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { Metadata, ResolvingMetadata } from 'next';
 
 interface NewsEvent {
   _id: string;
@@ -13,12 +12,11 @@ interface NewsEvent {
   location?: string;
 }
 
-// ✅ Correct typing based on App Router
-type PageProps = {
+export default async function NewsEventDetailsPage({
+  params,
+}: {
   params: { id: string };
-};
-
-export default async function NewsEventDetailsPage({ params }: PageProps) {
+}) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/news-events/${params.id}`, {
     cache: 'no-store',
   });
