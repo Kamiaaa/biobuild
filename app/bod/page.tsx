@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
-import { RiArtboard2Fill, RiLinkedinFill, RiTwitterFill, } from 'react-icons/ri';
-import { FaBuilding, FaUserTie, FaChartLine, FaHandshake } from 'react-icons/fa';
+import { RiArtboard2Fill } from 'react-icons/ri';
+import { FaUserTie, FaChartLine, FaHandshake } from 'react-icons/fa';
 
 interface Director {
   name: string;
@@ -68,7 +68,7 @@ export default function BoardOfDirectorsPage() {
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto">
-          <h1 className="text-4xl font-poppins tracking-tight text-white sm:text-5xl lg:text-6xl mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6">
             Board of Directors
           </h1>
           <p className="max-w-2xl mx-auto text-xl text-gray-100">
@@ -77,57 +77,76 @@ export default function BoardOfDirectorsPage() {
         </div>
       </section>
 
-      {/* Directors Grid */}
+      {/* Directors Grid - Stylish Card Design */}
       <section className="px-4 py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-poppins dark:text-gray-50 mb-4">
+            <h2 className="text-3xl font-bold dark:text-gray-50 mb-4">
               Our Leadership Team
             </h2>
-            
             <p className="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300">
               Experienced professionals committed to innovation and sustainable development
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {directors.map((director, index) => (
               <div
                 key={index}
-                className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 group"
+                className="relative bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 group"
               >
-                <div className="relative">
+                {/* Image with gradient overlay */}
+                <div className="relative h-64 overflow-hidden">
                   <img
                     src={director.image}
                     alt={director.name}
-                    className="w-40 h-40 mx-auto rounded-full object-cover mb-4 border-4 border-[#7AA859] dark:border-[#7aa859e3] group-hover:border-blue-500 transition-colors duration-300"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-700 rounded-full p-2 shadow-md">
-                    <FaUserTie className="h-5 w-5 text-[#7AA859]" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-80"></div>
+                  <div className="absolute bottom-4 left-4">
+                    <h3 className="text-xl font-bold text-white">{director.name}</h3>
+                    <p className="text-[#7AA859] text-sm font-medium">{director.title}</p>
                   </div>
                 </div>
-                <h3 className="text-xl font-semibold dark:text-gray-50 text-center mb-1">{director.name}</h3>
-                <p className="text-[#7AA859] dark:text-[#7aa859e3] text-sm font-medium text-center mb-4">{director.title}</p>
-                <p className="text-gray-600 dark:text-gray-300 text-sm mb-6">{director.bio}</p>
-                
-                <div className="flex justify-between items-center">
-                  <Link href={director.link}>
-                    <button className="px-4 py-2 bg-[#7AA859] hover:bg-[#6a974f] text-white rounded-lg transition-colors duration-300 text-sm font-medium">
-                      View Profile
-                    </button>
-                  </Link>
-                  <div className="flex space-x-2">
-                    {director.linkedin && (
-                      <a href={director.linkedin} className="text-gray-500 hover:text-[#0077b5] transition-colors">
-                        <RiLinkedinFill className="h-5 w-5" />
-                      </a>
-                    )}
-                    {director.twitter && (
-                      <a href={director.twitter} className="text-gray-500 hover:text-[#1DA1F2] transition-colors">
-                        <RiTwitterFill className="h-5 w-5" />
-                      </a>
-                    )}
+
+                {/* Content */}
+                <div className="p-6">
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-6 line-clamp-3">
+                    {director.bio}
+                  </p>
+
+                  <div className="flex justify-between items-center">
+                    <Link href={director.link}>
+                      <button className="px-4 py-2 bg-[#7AA859] hover:bg-[#6a974f] text-white rounded-lg transition-all duration-300 text-sm font-medium flex items-center gap-2">
+                        View Profile
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </button>
+                    </Link>
+                    
+                    <div className="flex space-x-3">
+                      {director.linkedin && (
+                        <a href={director.linkedin} className="text-gray-500 hover:text-[#0077b5] transition-colors">
+                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fillRule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clipRule="evenodd" />
+                          </svg>
+                        </a>
+                      )}
+                      {director.twitter && (
+                        <a href={director.twitter} className="text-gray-500 hover:text-[#1DA1F2] transition-colors">
+                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                          </svg>
+                        </a>
+                      )}
+                    </div>
                   </div>
+                </div>
+
+                {/* Corner accent */}
+                <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#7AA859] transform rotate-45 origin-bottom-left translate-x-8 -translate-y-8"></div>
                 </div>
               </div>
             ))}
@@ -143,10 +162,10 @@ export default function BoardOfDirectorsPage() {
               <div className="bg-[#7AA859] text-white p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
                 <RiArtboard2Fill className="h-8 w-8" />
               </div>
-              <h2 className="text-3xl font-extrabold dark:text-gray-50 mb-6">
+              <h2 className="text-3xl font-bold dark:text-gray-50 mb-6">
                 Our Leadership Approach
               </h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-6">
+              <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
                 We believe in leadership that combines strategic vision with operational excellence, always putting our clients and communities first.
               </p>
               <div className="space-y-6">
@@ -185,11 +204,11 @@ export default function BoardOfDirectorsPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="px-4 py-20 bg-gradient-to-r from-[#7AA859] to-blue-700 text-white text-center">
+      {/* CTA Section */}
+      <section className="px-4 py-20 bg-gradient-to-r from-[#7AA859] to-green-700 text-white text-center">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-extrabold mb-6">Want to Learn More About Our Leadership?</h2>
-          <p className="max-w-2xl mx-auto mb-8 text-xl text-gray-100">
+          <h2 className="text-3xl font-bold mb-6">Want to Learn More About Our Leadership?</h2>
+          <p className="max-w-2xl mx-auto mb-8 text-lg text-gray-100">
             Discover how our board's expertise drives innovation and excellence in every project.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
