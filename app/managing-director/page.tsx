@@ -8,15 +8,15 @@ export default function ManagingDirectorPage() {
         name: "Architect Md. Mamunur Rahman (Munim)",
         title: "Managing Director",
         company: "Biobuild Development Ltd.",
-        bio: `With over 15 years of executive experience in the technology sector, Alexandra Chen has successfully led our company through remarkable growth and digital transformation. Her visionary leadership and commitment to innovation have positioned us as industry pioneers.
+        bio: `Our managing director Architect Md Mamunur Rahman (Munim) plays a pivotal role as an organizer at BIOBUILD Development Ltd, leveraging his vast experience in steering the company towards greater heights. His dynamic approach and unwavering efficiency have been instrumental in shining a spotlight on our projects and operations.
 
-Prior to joining Global Innovations, Alexandra served as Vice President of Strategy at TechFuture, where she spearheaded initiatives that drove a 40% increase in market share. She holds an MBA from Stanford University and is a frequent speaker at international business conferences.
+His sharp intelligence and commitment to timely delivery set him apart as the cornerstone of our management team. He consistently brings new dimensions to our strategies and execution, ensuring that we stay ahead in the competitive Real Estate Development Industry.
 
-Under her leadership, our company has expanded to three new markets, launched award-winning products, and maintained a 95% employee satisfaction rate for five consecutive years.`,
+His leadership at BIOBUILD Development Ltd continues to thrive and innovate, always pushing the boundaries of what is possible in real estate development.`,
         imageUrl: "/img/bod/bod-01.png", // Replace with your image path
-        email: "alexandra.chen@globalinnovations.com",
-        phone: "+1 (415) 555-0199",
-        location: "San Francisco, CA",
+        email: "managing-director@biobuild.com",
+        phone: "+800 555-0199",
+        location: "Dhaka, Bangladesh",
         linkedin: "https://www.linkedin.com/in/alexandrachen",
         twitter: "https://twitter.com/alexchen_md",
         achievements: [
