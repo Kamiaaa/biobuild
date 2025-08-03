@@ -29,7 +29,7 @@ His leadership at BIOBUILD Development Ltd continues to thrive and innovate, alw
     return (
         <main className="min-h-screen bg-gray-50">
             {/* Hero Section */}
-            <div className="relative bg-gradient-to-r from-blue-800 to-indigo-900 py-20 px-4 sm:px-6 lg:px-8 text-white">
+            <div className="relative bg-gradient-to-r from-[#7AA859] to-[#7AA819] py-20 px-4 sm:px-6 lg:px-8 text-white">
                 <div className="absolute inset-0 bg-black opacity-30"></div>
                 <div className="max-w-7xl mx-auto relative z-10">
                     <div className="text-center">
@@ -61,7 +61,7 @@ His leadership at BIOBUILD Development Ltd continues to thrive and innovate, alw
                                     alt={`Portrait of ${director.name}`}
                                 />
                                 <h2 className="mt-6 text-2xl font-bold text-gray-900">{director.name}</h2>
-                                <p className="text-indigo-600 font-medium">{director.title}</p>
+                                <p className="text-[#7AA859] font-medium">{director.title}</p>
                                 <p className="text-gray-600 mt-1">{director.company}</p>
                             </div>
 
