@@ -146,7 +146,7 @@ export default function NewsEventDetailPage() {
             <img
               src={item.image}
               alt={item.title}
-              className="w-full h-auto object-cover"
+              className="max-w-[300px] h-auto"
             />
           </div>
           <p className="text-xl font-light text-gray-600 dark:text-gray-300 mb-8">
