@@ -149,7 +149,11 @@ function NewsCard({ item }: { item: NewsEvent }) {
                 <h4 className="text-xl font-semibold my-2 group-hover:text-[#7AA859] transition-colors duration-300">
                     {item.title}
                 </h4>
-                <p className="text-gray-600 dark:text-gray-300">{item.summary}</p>
+                <p className="text-gray-500 text-sm">
+                {item.summary.length > 100
+                  ? `${item.summary.slice(0, 100)}...`
+                  : item.summary}
+              </p>
             </div>
             <div className="px-6 pb-6">
                 <Link href={`/news-events/${item._id}`}>
