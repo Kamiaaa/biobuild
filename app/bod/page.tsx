@@ -68,7 +68,7 @@ export default function BoardOfDirectorsPage() {
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-poppins tracking-tight text-white mb-6">
             Board of Directors
           </h1>
           <p className="max-w-2xl mx-auto text-xl text-gray-100">
