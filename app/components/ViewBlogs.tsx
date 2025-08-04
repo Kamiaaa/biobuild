@@ -69,7 +69,9 @@ const ViewBlogs: React.FC = () => {
                 href={`/blogs/${blog._id}`}
                 className="font-semibold text-lg inline-block hover:text-[#7AA859] transition duration-500 ease-in-out mb-2"
               >
-                {blog.title}
+                {blog.description.length > 100
+                  ? `${blog.description.slice(0, 100)}...`
+                  : blog.description}
               </Link>
               <p className="text-gray-500 text-sm">
                 {blog.description.length > 100
