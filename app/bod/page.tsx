@@ -61,7 +61,7 @@ export default function BoardOfDirectorsPage() {
         <div className="absolute inset-0 z-0">
           <img
             className="w-full h-full object-cover opacity-30"
-            src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+            src="https://unsplash.com/photos/woman-placing-sticky-notes-on-wall-Oalh2MojUuk"
             alt="Corporate boardroom"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#7AA859] to-green-700 mix-blend-multiply" aria-hidden="true" />
