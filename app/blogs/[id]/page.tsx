@@ -67,10 +67,10 @@ export default function BlogDetailPage() {
 
   const formattedDate = blog.createdAt
     ? new Date(blog.createdAt).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
     : '';
 
   return (
@@ -86,8 +86,8 @@ export default function BlogDetailPage() {
           <div className="absolute inset-0 z-0">
             <img
               className="w-full h-full object-cover opacity-30"
-              src={blog.imageUrl}
-              alt={blog.title}
+              src="https://images.unsplash.com/photo-1657639039662-9edac2e6a40b?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Corporate boardroom"
               loading="eager"
             />
             <div
@@ -100,7 +100,7 @@ export default function BlogDetailPage() {
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-poppins tracking-tight text-white mb-6 leading-tight">
               Biobuild Blogs
             </h1>
-          </div>  
+          </div>
         </section>
 
         {/* Blog Content Section */}
@@ -162,7 +162,7 @@ export default function BlogDetailPage() {
                     )}
                   </div>
                 </div>
-                
+
                 <div className="flex flex-wrap gap-2">
                   {blog.categories.map((cat, idx) => (
                     <span
@@ -174,10 +174,10 @@ export default function BlogDetailPage() {
                   ))}
                 </div>
                 <div>
-                    <p className="text-2xl font-poppins text-gray-900 dark:text-gray-100">
-                      {blog.title}
-                    </p>
-                  </div>
+                  <p className="text-2xl font-poppins text-gray-900 dark:text-gray-100">
+                    {blog.title}
+                  </p>
+                </div>
               </div>
 
               {/* Content */}
