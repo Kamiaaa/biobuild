@@ -171,7 +171,7 @@ export default function Navbar() {
                 )}
               </div>
 
-              <Link href="/news-events" onClick={() => setIsOpen(false)} className="block text-lg font-medium text-gray-800 hover:text-[#7AA859]">NEWS & AWARDS</Link>
+              <Link href="/news-events" onClick={() => setIsOpen(false)} className="block text-lg font-medium text-gray-800 hover:text-[#7AA859]">NEWS & EVENTS</Link>
               <Link href="/career" onClick={() => setIsOpen(false)} className="block text-lg font-medium text-gray-800 hover:text-[#7AA859]">CAREER</Link>
               <Link href="/contact" onClick={() => setIsOpen(false)} className="block text-lg font-medium text-gray-800 hover:text-[#7AA859]">CONTACT</Link>
             </div>
@@ -246,7 +246,7 @@ export default function Navbar() {
               )}
             </div>
 
-            <Link href="/news-events" onClick={() => setIsOpen(false)} className="block text-lg font-medium text-gray-800 hover:text-[#7AA859]">NEWS & AWARDS</Link>
+            <Link href="/news-events" onClick={() => setIsOpen(false)} className="block text-lg font-medium text-gray-800 hover:text-[#7AA859]">NEWS & EVENTS</Link>
             <Link href="/career" onClick={() => setIsOpen(false)} className="block text-lg font-medium text-gray-800 hover:text-[#7AA859]">CAREER</Link>
             <Link href="/contact" onClick={() => setIsOpen(false)} className="block text-lg font-medium text-gray-800 hover:text-[#7AA859]">CONTACT</Link>
 
