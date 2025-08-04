@@ -117,7 +117,7 @@ export default function Slider() {
         {/* Icons Bar */}
         <div className="absolute bottom-0 w-full h-40 z-50">
           {/* Desktop version */}
-          <div className="hidden md:flex absolute inset-0 bg-black/20 backdrop-blur-md items-center px-10 z-50">
+          <div className="hidden md:flex absolute inset-0 bg-black/20 items-center px-10 z-50">
             <div className="text-white text-2xl font-semibold w-1/3">
               Explore Our Projects
             </div>
