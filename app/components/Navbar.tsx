@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { FiPhone } from "react-icons/fi";
 import Image from "next/image";
 
 export default function Navbar() {
@@ -10,7 +11,7 @@ export default function Navbar() {
   const [isDesktop, setIsDesktop] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
-  const buttonRef = useRef<HTMLButtonElement | null>(null); 
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,7 +23,7 @@ export default function Navbar() {
         menuRef.current &&
         !menuRef.current.contains(event.target as Node) &&
         buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node) 
+        !buttonRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
         setOpenSubmenu(null);
@@ -48,9 +49,9 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white shadow-lg fixed w-full z-100">
+    <nav className="bg-white shadow-lg fixed w-full z-50">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex items-center justify-between h-16 gap-4">
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="text-xl font-bold text-gray-800">
@@ -64,10 +65,16 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Hamburger Menu Button (all screens) */}
+          {/* Contact Number (Visible on md and up) */}
+          <div className="hidden md:flex items-center gap-2 text-[#7AA859] font-semibold text-lg">
+            <FiPhone className="text-xl" />
+            <span>+880 17 51 51 12 12</span>
+          </div>
+
+          {/* Hamburger Menu Button */}
           <div className="flex md:flex">
             <button
-              ref={buttonRef} // ✅ Add ref
+              ref={buttonRef}
               onClick={toggleMenu}
               className="text-[#7AA859] hover:text-[#7AA813] focus:outline-none"
               aria-label="Toggle menu"
@@ -110,7 +117,6 @@ export default function Navbar() {
           }`}
         >
           <div className="max-w-7xl mx-auto px-4 py-4 flex">
-            {/* Left Links */}
             <div className="w-1/2 pr-8 space-y-4">
               <Link
                 href="/"
@@ -120,7 +126,7 @@ export default function Navbar() {
                 HOME
               </Link>
 
-              {/* About Us */}
+              {/* About */}
               <div className="relative">
                 <button
                   onClick={() => toggleSubmenu("about")}
@@ -233,7 +239,7 @@ export default function Navbar() {
               </button>
               {openSubmenu === "projects" && (
                 <div className="mt-2 ml-4 space-y-2">
-                  <Link href="/project-status/ongoing" onClick={() => setIsOpen(false)} className="block text-lg text-gray-700 hover:text-[#7AA859]">Onegoing Project</Link>
+                  <Link href="/project-status/ongoing" onClick={() => setIsOpen(false)} className="block text-lg text-gray-700 hover:text-[#7AA859]">Ongoing Project</Link>
                   <Link href="/project-status/completed" onClick={() => setIsOpen(false)} className="block text-lg text-gray-700 hover:text-[#7AA859]">Completed Project</Link>
                   <Link href="/project-status/upcoming" onClick={() => setIsOpen(false)} className="block text-lg text-gray-700 hover:text-[#7AA859]">Upcoming Projects</Link>
                 </div>
