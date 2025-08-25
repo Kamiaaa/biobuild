@@ -42,15 +42,15 @@ export default function BoardOfDirectorsPage() {
       linkedin: "#",
       twitter: "#"
     },
-    {
-      name: "Architect Mir Ashiqur Rahman",
-      title: "DIRECTOR",
-      image: "/img/bod/bod-04.png",
-      bio: "With a keen eye for detail, Architect Mir Ashiqur Rahman has a passion for innovative and sustainable solutions that meet the needs of people and environment.",
-      link: "director",
-      linkedin: "#",
-      twitter: "#"
-    },
+    // {
+    //   name: "Architect Mir Ashiqur Rahman",
+    //   title: "DIRECTOR",
+    //   image: "/img/bod/bod-04.png",
+    //   bio: "With a keen eye for detail, Architect Mir Ashiqur Rahman has a passion for innovative and sustainable solutions that meet the needs of people and environment.",
+    //   link: "director",
+    //   linkedin: "#",
+    //   twitter: "#"
+    // },
   ];
 
   return (
