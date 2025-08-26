@@ -277,7 +277,7 @@ const AddProjectPage = () => {
               )}
 
               <div className="flex justify-end gap-4 pt-4">
-                <button type="button" onClick={() => router.push('/projects')} disabled={loading}
+                <button type="button" onClick={() => router.push('/projects/crud')} disabled={loading}
                   className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                   Cancel
                 </button>
