@@ -1,21 +1,22 @@
-//models/Project.ts
+// models/Project.ts
 import mongoose, { Schema, model, models, Document } from 'mongoose';
 
 export interface IProject extends Document {
-    title: string;
-    hoverTitle: string;
-    hoverText: string;
-    location: string;
-    status: 'ongoing' | 'completed' | 'upcoming';
-    description: string;
-    size: string;
-    units: number;
-    floors: number;
-    amenities: string[];
-    image: string;
+  title: string;
+  hoverTitle: string;
+  hoverText: string;
+  location: string;
+  status: 'ongoing' | 'completed' | 'upcoming';
+  description?: string; // ✅ now optional
+  size: string;
+  units: number;
+  floors: number;
+  amenities: string[];
+  image: string;
 }
 
-const ProjectSchema = new Schema<IProject>({
+const ProjectSchema = new Schema<IProject>(
+  {
     title: { type: String, required: true },
     hoverTitle: { type: String, required: true },
     hoverText: { type: String, required: true },
@@ -25,12 +26,15 @@ const ProjectSchema = new Schema<IProject>({
       enum: ['ongoing', 'completed', 'upcoming'],
       required: true,
     },
-    description: { type: String, required: true },
+    description: { type: String }, // ✅ no longer required
     size: { type: String, required: true },
     units: { type: Number, required: true },
     floors: { type: Number, required: true },
     amenities: { type: [String], required: true },
     image: { type: String, required: true },
-}, { timestamps: true });
+  },
+  { timestamps: true }
+);
 
-export const Project = models.Project || model<IProject>('Project', ProjectSchema);
+export const Project =
+  models.Project || model<IProject>('Project', ProjectSchema);
