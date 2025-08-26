@@ -15,7 +15,7 @@ interface Project {
   location: string;
   size: string;
   units: number;
-  floors: number;
+  floors: string;
   createdAt?: string;
 }
 
