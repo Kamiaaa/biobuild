@@ -10,7 +10,7 @@ export interface IProject extends Document {
   description?: string; // ✅ now optional
   size: string;
   units: number;
-  floors: number;
+  floors: string;
   amenities: string[];
   image: string;
 }
@@ -29,7 +29,7 @@ const ProjectSchema = new Schema<IProject>(
     description: { type: String }, // ✅ no longer required
     size: { type: String, required: true },
     units: { type: Number, required: true },
-    floors: { type: Number, required: true },
+    floors: { type: String, required: true },
     amenities: { type: [String], required: true },
     image: { type: String, required: true },
   },
