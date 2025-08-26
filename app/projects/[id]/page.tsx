@@ -185,7 +185,7 @@ const ProjectDetailPage = () => {
           {/* Right Column - Details */}
           <div className="space-y-8">
             <div className="bg-blue-50 rounded-xl p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-3">{project.hoverTitle}</h2>
+              {/* <h2 className="text-xl font-semibold text-gray-900 mb-3">{project.hoverTitle}</h2> */}
               
             </div>
 
