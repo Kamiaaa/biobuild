@@ -54,12 +54,13 @@ const AddProjectPage = () => {
     setLoading(true);
     setMessage(null);
 
-    if (!title || !hoverTitle || !hoverText || !location || !status || !description || 
-        !size || !units || !floors || amenities.length === 0 || !imageFile) {
-      setMessage({ text: 'All fields are required', type: 'error' });
+    if (!title || !hoverTitle || !hoverText || !location || !status ||
+      !size || !units || !floors || amenities.length === 0 || !imageFile) {
+      setMessage({ text: 'All fields are required (except description)', type: 'error' });
       setLoading(false);
       return;
     }
+
 
     try {
       const formData = new FormData();
@@ -197,8 +198,15 @@ const AddProjectPage = () => {
               {/* description */}
               <div>
                 <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
-                <textarea id="description" rows={4} value={description} onChange={(e) => setDescription(e.target.value)} required
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white" />
+                <textarea
+                  id="description"
+                  rows={4}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Enter project description (optional)"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+                />
+
               </div>
 
               {/* size */}
