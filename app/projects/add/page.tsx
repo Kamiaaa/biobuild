@@ -19,7 +19,7 @@ const AddProjectPage = () => {
   const [description, setDescription] = useState('');
   const [size, setSize] = useState('');
   const [units, setUnits] = useState<number>(0);
-  const [floors, setFloors] = useState<number>(0);
+  const [floors, setFloors] = useState('');
   const [amenities, setAmenities] = useState<string[]>([]);
   const [currentAmenity, setCurrentAmenity] = useState('');
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -115,7 +115,7 @@ const AddProjectPage = () => {
       setDescription('');
       setSize('');
       setUnits(0);
-      setFloors(0);
+      setFloors('');
       setAmenities([]);
       setImageFile(null);
       setImagePreview('');
@@ -225,7 +225,7 @@ const AddProjectPage = () => {
                 </div>
                 <div>
                   <label htmlFor="floors" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Floors</label>
-                  <input type="number" id="floors" value={floors} onChange={(e) => setFloors(Number(e.target.value))} min={0} required
+                  <input type="text" id="floors" value={floors} onChange={(e) => setFloors(e.target.value)} required
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white" />
                 </div>
               </div>
