@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaUser, FaLock } from 'react-icons/fa';
+import Image from 'next/image';
 
 const LoginPage = () => {
   const router = useRouter();
@@ -75,7 +76,15 @@ const LoginPage = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md bg-white p-8 shadow-md rounded">
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        <div className='h-auto w-full flex justify-center mb-5'>
+          <Image
+            className="h-auto w-32 pb-3"
+            src="/img/logo.jpg" // Use a white version of your logo
+            alt="BIOBUILD Development Ltd. Logo"
+            height={150}
+            width={150}
+          />
+        </div>
         {error && <p className="text-red-500">{error}</p>}
         {successMessage && <p className="text-green-500">{successMessage}</p>}
         <form onSubmit={handleSubmit}>
