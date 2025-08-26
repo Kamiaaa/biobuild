@@ -46,7 +46,7 @@ const PromotionalBanner = () => {
           </>
         ) : (
           <div className="relative w-full max-w-4xl aspect-video z-20 mx-auto">
-            {/* Close Button on top-right inside video container */}
+            {/* Close Button */}
             <button
               onClick={() => setIsPlaying(false)}
               className="absolute top-3 right-3 bg-red-600 hover:bg-red-700 text-white p-3 rounded-full shadow-lg transition-all z-30"
@@ -55,10 +55,10 @@ const PromotionalBanner = () => {
               <FaTimes className="text-xl" />
             </button>
 
-            {/* Embedded YouTube Video */}
+            {/* Autoplay YouTube Video */}
             <iframe
               className="w-full h-full border-0 rounded-2xl shadow-lg"
-              src="https://www.youtube.com/embed/df_Od5pIpEU"
+              src="https://www.youtube.com/embed/df_Od5pIpEU?autoplay=1&mute=1"
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
