@@ -373,7 +373,7 @@ const EditProjectContent = () => {
                     id="floors"
                     name="floors"
                     value={form.floors}
-                    onChange={handleNumberChange}
+                    onChange={handleChange}
                     min="0"
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
                     required
