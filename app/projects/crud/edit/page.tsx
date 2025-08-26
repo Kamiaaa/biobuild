@@ -17,7 +17,7 @@ interface Project {
   description: string;
   size: string;
   units: number;
-  floors: number;
+  floors: string;
   amenities: string[];
   image: string;
 }
@@ -38,7 +38,7 @@ const EditProjectContent = () => {
     description: '',
     size: '',
     units: 0,
-    floors: 0,
+    floors: '',
     amenities: [],
     image: ''
   });
@@ -369,7 +369,7 @@ const EditProjectContent = () => {
                     Floors
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     id="floors"
                     name="floors"
                     value={form.floors}
