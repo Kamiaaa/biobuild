@@ -21,7 +21,7 @@ const PromotionalBanner = () => {
       className="relative w-full h-[500px] overflow-hidden bg-fixed bg-center bg-cover bg-no-repeat mt-20"
       style={{
         backgroundImage:
-          "url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+          "url('/img/slider/slide-01.jpg')",
       }}
     >
       <motion.div

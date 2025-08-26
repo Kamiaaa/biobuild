@@ -45,20 +45,21 @@ const ViewProjectsPage: React.FC = () => {
     if (!slider || projects.length === 0) return;
 
     let animationFrameId: number;
-    let speed = 1;
+    let speed = 1; // scroll speed (px/frame)
     let position = 0;
-    const itemWidth = 288; // width of card
+    const itemWidth = 288; 
     const totalWidth = itemWidth * projects.length;
 
     const animate = () => {
       if (!isPaused.current) {
         position -= speed;
 
+        // Reset seamlessly after one full set
         if (position <= -totalWidth) {
           position = 0;
           slider.style.transition = 'none';
           slider.style.transform = `translateX(${position}px)`;
-          slider.offsetHeight; // reflow
+          slider.offsetHeight; // force reflow
           slider.style.transition = '';
         }
 
@@ -82,52 +83,64 @@ const ViewProjectsPage: React.FC = () => {
     };
   }, [projects]);
 
-  const handleNext = () => {
-    if (!sliderRef.current || !containerRef.current || projects.length === 0) return;
-    
-    const slider = sliderRef.current;
-    const container = containerRef.current;
-    const scrollAmount = container.clientWidth;
-    const currentTransform = getComputedStyle(slider).transform;
+  // Helper: Get current position
+  const getCurrentPosition = () => {
+    if (!sliderRef.current) return 0;
+    const currentTransform = getComputedStyle(sliderRef.current).transform;
     const matrix = new DOMMatrix(currentTransform);
-    let currentPosition = matrix.m41;
-
-    const newPosition = currentPosition - scrollAmount;
-
-    if (Math.abs(newPosition) >= 288 * projects.length) {
-      slider.style.transition = 'none';
-      slider.style.transform = 'translateX(0px)';
-      slider.offsetHeight;
-      slider.style.transition = 'transform 0.5s ease';
-      slider.style.transform = `translateX(${-scrollAmount}px)`;
-    } else {
-      slider.style.transition = 'transform 0.5s ease';
-      slider.style.transform = `translateX(${newPosition}px)`;
-    }
+    return matrix.m41; // X translate
   };
 
-  const handlePrev = () => {
+  // Next button
+  const handleNext = () => {
     if (!sliderRef.current || !containerRef.current || projects.length === 0) return;
-    
+
     const slider = sliderRef.current;
     const container = containerRef.current;
     const scrollAmount = container.clientWidth;
-    const currentTransform = getComputedStyle(slider).transform;
-    const matrix = new DOMMatrix(currentTransform);
-    let currentPosition = matrix.m41;
+    let currentPosition = getCurrentPosition();
 
-    const newPosition = currentPosition + scrollAmount;
+    let newPosition = currentPosition - scrollAmount;
 
-    if (newPosition >= 0) {
+    // totalWidth * 2 because we doubled the list
+    const totalWidth = 288 * projects.length * 2;
+
+    if (Math.abs(newPosition) >= totalWidth / 2) {
+      // reset to start of second half
       slider.style.transition = 'none';
-      slider.style.transform = `translateX(${-(288 * projects.length - scrollAmount)}px)`;
+      slider.style.transform = `translateX(0px)`;
       slider.offsetHeight;
       slider.style.transition = 'transform 0.5s ease';
-      slider.style.transform = `translateX(${-(288 * projects.length)}px)`;
-    } else {
-      slider.style.transition = 'transform 0.5s ease';
-      slider.style.transform = `translateX(${newPosition}px)`;
+      newPosition = -scrollAmount;
     }
+
+    slider.style.transition = 'transform 0.5s ease';
+    slider.style.transform = `translateX(${newPosition}px)`;
+  };
+
+  // Prev button
+  const handlePrev = () => {
+    if (!sliderRef.current || !containerRef.current || projects.length === 0) return;
+
+    const slider = sliderRef.current;
+    const container = containerRef.current;
+    const scrollAmount = container.clientWidth;
+    let currentPosition = getCurrentPosition();
+
+    let newPosition = currentPosition + scrollAmount;
+
+    if (newPosition > 0) {
+      // Jump to the second copy's end
+      const totalWidth = 288 * projects.length;
+      slider.style.transition = 'none';
+      slider.style.transform = `translateX(${-totalWidth}px)`;
+      slider.offsetHeight;
+      slider.style.transition = 'transform 0.5s ease';
+      newPosition = -(totalWidth - scrollAmount);
+    }
+
+    slider.style.transition = 'transform 0.5s ease';
+    slider.style.transform = `translateX(${newPosition}px)`;
   };
 
   if (loading) {
@@ -176,8 +189,8 @@ const ViewProjectsPage: React.FC = () => {
           className="flex gap-10 w-max py-5"
           style={{ willChange: 'transform' }}
         >
-          {projects.map((project) => (
-            <div key={project._id} className="relative group w-72 flex-shrink-0">
+          {[...projects, ...projects].map((project, index) => (
+            <div key={project._id + '-' + index} className="relative group w-72 flex-shrink-0">
               <div
                 className={`absolute top-2 right-2 z-10 text-xs font-semibold px-3 py-1 rounded-full shadow capitalize ${
                   project.status === 'completed'
