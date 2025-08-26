@@ -21,7 +21,7 @@ const PromotionalBanner = () => {
       className="relative w-full h-[500px] overflow-hidden bg-fixed bg-center bg-cover bg-no-repeat mt-20"
       style={{
         backgroundImage:
-          "url('/img/slider/slide-01.jpg')",
+          "url('/img/jolshiri.jpg')",
       }}
     >
       <motion.div
@@ -41,7 +41,8 @@ const PromotionalBanner = () => {
 
             {/* Heading */}
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white max-w-2xl z-10">
-              Ray White Begins Bangladesh’s First Smart City: Jolshiri Abashon
+              BIOBUILD Leads the Way with Jolshiri Abashon
+              Bangladesh's First Smart City Revolution
             </h2>
           </>
         ) : (
