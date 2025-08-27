@@ -1,16 +1,16 @@
 import Link from 'next/link';
 
-export default function ManagingDirectorPage() {
+export default function CooPage() {
     const director = {
-        name: "Architect Md. Mamunur Rahman (Munim)",
-        title: "Managing Director",
+        name: "Lt Cdr Tauhid Hossain (Retd)",
+        title: "HEAD OF OPERATIONS",
         company: "Biobuild Development Ltd.",
-        bio: `Architect Md Mamunur Rahman (Munim) plays a pivotal role as an organizer at BIOBUILD Development Ltd, leveraging his vast experience in steering the company towards greater heights. His dynamic approach and unwavering efficiency have been instrumental in shining a spotlight on our projects and operations.
+        bio: `Lt Cdr Tauhid Hossain (Retd) currently acting as the Head of Operations, leveraging his notable military background to effectively manage substantial responsibilities within the company’s operational structure.
 
-His sharp intelligence and commitment to timely delivery set him apart as the cornerstone of our management team. He consistently brings new dimensions to our strategies and execution, ensuring that we stay ahead in the competitive Real Estate Development Industry.
+He supervises a range of tasks and initiatives, ensuring their seamless implementation and alignment with company protocols.
 
-His leadership at BIOBUILD Development Ltd continues to thrive and innovate, always pushing the boundaries of what is possible in real estate development.`,
-        imageUrl: "/img/bod/bod-01.png", // Replace with your image path
+His leadership style embodies a dedication to excellence and a comprehensive grasp of operational intricacies. Through his guidance, operational goals are attained with efficiency and precision.`,
+        imageUrl: "/img/bod/coo.png", // Replace with your image path
         email: "managing-director@biobuild.com",
         phone: "+800 555-0199",
         location: "Dhaka, Bangladesh",

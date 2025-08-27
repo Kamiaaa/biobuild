@@ -157,6 +157,16 @@ export default function Navbar() {
                     Board of Directors
                   </Link>
                   <Link
+                    href="/management-team"
+                    onClick={() => {
+                      setIsOpen(false);
+                      setOpenSubmenu(null); // ✅ Close submenu too
+                    }}
+                    className="block text-lg text-gray-300 hover:text-white font-semibold"
+                  >
+                    Management Team
+                  </Link>
+                  <Link
                     href="/mission-vision"
                     onClick={() => {
                       setIsOpen(false);
@@ -300,6 +310,13 @@ export default function Navbar() {
                     className="block text-lg text-gray-300 hover:text-white font-semibold"
                   >
                     Board of Directors
+                  </Link>
+                  <Link
+                    href="/management-team"
+                    onClick={() => setIsOpen(false)}
+                    className="block text-lg text-gray-300 hover:text-white font-semibold"
+                  >
+                    Management Team
                   </Link>
                   <Link
                     href="/mission-vision"
