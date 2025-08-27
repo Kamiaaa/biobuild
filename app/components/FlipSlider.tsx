@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
-import { FiDownload, FiX } from "react-icons/fi";
+import { FiX } from "react-icons/fi";
 
 interface Slide {
   id: number;
@@ -24,6 +24,7 @@ export default function FlipSlider() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const nextSlide = () => {
     setDirection("next");
@@ -35,42 +36,46 @@ export default function FlipSlider() {
     setIndex((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
-  const handleDownloadClick = () => {
-    setShowForm(true);
-  };
+  const handleShowForm = () => setShowForm(true);
+  const handleCloseForm = () => { setShowForm(false); setError(""); }
 
-  const handleCloseForm = () => {
-    setShowForm(false);
-    setError("");
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validation: phone must be only digits
     if (!/^[0-9]+$/.test(phone)) {
       setError("Phone number must contain only digits.");
       return;
     }
 
     setError("");
-    console.log("Name:", name, "Phone:", phone);
+    setLoading(true);
 
-    // After successful submission trigger download
-    const link = document.createElement("a");
-    link.href = "/brochures/biobuild.pdf"; // your brochure path
-    link.download = "biobuild.pdf";
-    link.click();
+    try {
+      const res = await fetch("/api/brochure", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, phone }),
+      });
 
-    // Reset form
-    setName("");
-    setPhone("");
-    setShowForm(false);
+      const result = await res.json();
+      alert(result.message);
+
+      if (result.success) {
+        setName("");
+        setPhone("");
+        setShowForm(false);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("❌ Something went wrong. Try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="relative w-full max-w-3xl mx-auto p-4 text-center font-sans">
-      {/* Title & Brochure Section */}
+      {/* Title Section */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -78,37 +83,23 @@ export default function FlipSlider() {
         className="mb-8"
       >
         <h1 className="text-2xl md:text-3xl font-poppins font-bold text-gray-800 mb-3">
-          Download <span className="text-[#7AA859]">BIOBUILD</span> Brochure
+          Get Your <span className="text-[#7AA859]">BIOBUILD</span> Brochure
         </h1>
         <p className="mt-2 text-gray-600 max-w-2xl mx-auto text-base leading-relaxed">
-          Get an exclusive overview of elegantly crafted apartments and real estate
-          solutions — where modern design meets lasting value and superior functionality.
+          Share your details and we’ll contact you shortly.
         </p>
       </motion.div>
 
-      {/* Slider Container - Reduced by 30% */}
+      {/* Slider */}
       <div className="relative bg-gradient-to-br from-gray-50 to-white p-6 rounded-2xl shadow-lg mb-6">
-        {/* Slider - Height reduced from 700px to 490px (30% decrease) */}
         <div className="overflow-hidden relative h-[490px] perspective-1000">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={slides[index].id}
               custom={direction}
-              initial={{ 
-                rotateY: direction === "next" ? 90 : -90, 
-                opacity: 0,
-                scale: 0.9
-              }}
-              animate={{ 
-                rotateY: 0, 
-                opacity: 1,
-                scale: 1
-              }}
-              exit={{ 
-                rotateY: direction === "next" ? -90 : 90, 
-                opacity: 0,
-                scale: 0.9
-              }}
+              initial={{ rotateY: direction === "next" ? 90 : -90, opacity: 0, scale: 0.9 }}
+              animate={{ rotateY: 0, opacity: 1, scale: 1 }}
+              exit={{ rotateY: direction === "next" ? -90 : 90, opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.7, ease: "easeInOut" }}
               className="absolute inset-0 bg-white rounded-xl shadow-md flex flex-col justify-center items-center backface-hidden"
             >
@@ -129,44 +120,33 @@ export default function FlipSlider() {
           {slides.map((_, i) => (
             <div
               key={i}
-              className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
-                i === index ? "bg-[#7AA859] w-4" : "bg-gray-300"
-              }`}
+              className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${i === index ? "bg-[#7AA859] w-4" : "bg-gray-300"}`}
             />
           ))}
         </div>
 
-        {/* Controls - Slightly smaller */}
+        {/* Controls */}
         <div className="flex justify-between items-center absolute top-1/2 left-0 right-0 transform -translate-y-1/2 px-2">
-          <button
-            onClick={prevSlide}
-            className="p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-all duration-300 hover:shadow-lg group"
-            aria-label="Previous slide"
-          >
+          <button onClick={prevSlide} className="p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-all duration-300 hover:shadow-lg group">
             <IoMdArrowBack size={20} className="text-gray-700 group-hover:text-emerald-600" />
           </button>
-          <button
-            onClick={nextSlide}
-            className="p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-all duration-300 hover:shadow-lg group"
-            aria-label="Next slide"
-          >
+          <button onClick={nextSlide} className="p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-all duration-300 hover:shadow-lg group">
             <IoMdArrowForward size={20} className="text-gray-700 group-hover:text-emerald-600" />
           </button>
         </div>
       </div>
 
-      {/* Download Button OR Form */}
+      {/* Show Form */}
       <AnimatePresence mode="wait">
         {!showForm ? (
           <motion.button
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            onClick={handleDownloadClick}
+            onClick={handleShowForm}
             className="mt-4 px-6 py-3 bg-[#7AA859] text-white font-medium rounded-lg shadow-md hover:bg-green-700 transition-all duration-300 flex items-center justify-center gap-2 mx-auto hover:shadow-lg text-sm"
           >
-            <FiDownload size={16} />
-            Download Brochure
+            Request Brochure
           </motion.button>
         ) : (
           <motion.div 
@@ -183,9 +163,9 @@ export default function FlipSlider() {
               <FiX size={20} />
             </button>
             
-            <h2 className="text-xl font-semibold text-gray-800 mb-2">Get Your Brochure</h2>
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">Request Brochure</h2>
             <p className="mb-4 text-gray-600 text-sm">
-              Share your details to access the BIOBUILD brochure.
+              Share your details and we’ll contact you shortly.
             </p>
             
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -216,9 +196,10 @@ export default function FlipSlider() {
               
               <button
                 type="submit"
+                disabled={loading}
                 className="w-full px-5 py-3 bg-[#7AA859] text-white font-medium rounded-lg shadow hover:bg-green-700 transition-all duration-300 hover:shadow-lg text-sm"
               >
-                Submit & Download
+                {loading ? "Sending..." : "Submit"}
               </button>
             </form>
           </motion.div>
