@@ -54,9 +54,9 @@ const AddProjectPage = () => {
     setLoading(true);
     setMessage(null);
 
-    if (!title || !hoverTitle || !hoverText || !location || !status ||
+    if (!title || !location || !status ||
       !size || !units || !floors || amenities.length === 0 || !imageFile) {
-      setMessage({ text: 'All fields are required (except description)', type: 'error' });
+      setMessage({ text: 'All fields are required (except description, hoverTitle, hoverText)', type: 'error' });
       setLoading(false);
       return;
     }
