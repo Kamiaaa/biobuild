@@ -21,8 +21,8 @@ const ContentLoader = () => {
     <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-sm rounded-xl">
       <div className="flex flex-col items-center">
         <div className="relative h-12 w-12">
-          <div className="absolute inset-0 rounded-full border-4 border-t-blue-500 border-r-blue-500 border-b-transparent border-l-transparent animate-spin"></div>
-          <div className="absolute inset-1 rounded-full border-4 border-t-blue-600 border-r-blue-600 border-b-transparent border-l-transparent animate-spin animation-delay-200"></div>
+          <div className="absolute inset-0 rounded-full border-4 border-t-[#7AA859] border-r-[#7AA859] border-b-transparent border-l-transparent animate-spin"></div>
+          <div className="absolute inset-1 rounded-full border-4 border-t-[#7AA859] border-r-[#7AA859] border-b-transparent border-l-transparent animate-spin animation-delay-200"></div>
         </div>
         <p className="mt-3 text-gray-600 text-sm font-medium">Loading projects...</p>
       </div>
@@ -34,6 +34,10 @@ export default function ProjectStatusViewPage() {
   const { status } = useParams<{ status: string }>();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  // Pagination state
+  const [visibleCount, setVisibleCount] = useState(6); // initial number of projects to show
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -43,6 +47,7 @@ export default function ProjectStatusViewPage() {
         if (!res.ok) throw new Error('Failed to fetch projects');
         const data = await res.json();
         setProjects(data);
+        setVisibleCount(6); // reset visible count on status change
       } catch (error) {
         console.error('Error fetching projects:', error);
       } finally {
@@ -54,6 +59,19 @@ export default function ProjectStatusViewPage() {
   }, [status]);
 
   const formattedTitle = status?.charAt(0).toUpperCase() + status?.slice(1);
+
+  // Get visible projects based on visibleCount
+  const visibleProjects = projects.slice(0, visibleCount);
+  const hasMoreProjects = visibleCount < projects.length;
+
+  const loadMore = () => {
+    setLoadingMore(true);
+    // Simulate network delay for better UX
+    setTimeout(() => {
+      setVisibleCount(prevCount => prevCount + 6);
+      setLoadingMore(false);
+    }, 500);
+  };
 
   // Hero Section with Background Image
   const getHeroDescription = () => {
@@ -138,31 +156,28 @@ export default function ProjectStatusViewPage() {
             <div className="mt-10 flex justify-center space-x-4">
               <Link
                 href="/project-status/ongoing"
-                className={`inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md ${
-                  status === 'ongoing' 
-                    ? 'bg-white text-[#7AA859]' 
+                className={`inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md ${status === 'ongoing'
+                    ? 'bg-white text-[#7AA859]'
                     : 'text-white border-white hover:bg-white/10'
-                }`}
+                  }`}
               >
                 Ongoing
               </Link>
               <Link
                 href="/project-status/completed"
-                className={`inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md ${
-                  status === 'completed' 
-                    ? 'bg-white text-[#7AA859]' 
+                className={`inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md ${status === 'completed'
+                    ? 'bg-white text-[#7AA859]'
                     : 'text-white border-white hover:bg-white/10'
-                }`}
+                  }`}
               >
                 Completed
               </Link>
               <Link
                 href="/project-status/upcoming"
-                className={`inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md ${
-                  status === 'upcoming' 
-                    ? 'bg-white text-[#7AA859]' 
+                className={`inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md ${status === 'upcoming'
+                    ? 'bg-white text-[#7AA859]'
                     : 'text-white border-white hover:bg-white/10'
-                }`}
+                  }`}
               >
                 Upcoming
               </Link>
@@ -197,7 +212,7 @@ export default function ProjectStatusViewPage() {
         <div className="relative min-h-[400px]">
           {loading && <ContentLoader />}
 
-          {!loading && projects.length === 0 ? (
+          {!loading && visibleProjects.length === 0 ? (
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center max-w-2xl mx-auto">
               <div className="mx-auto h-24 w-24 text-gray-400 mb-6">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
@@ -218,77 +233,101 @@ export default function ProjectStatusViewPage() {
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((project) => (
-                <div
-                  key={project._id}
-                  className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-1"
-                >
-                  <div className="relative h-96 w-full group">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      priority={false}
-                    />
-                  </div>
-                  <div className="p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="mr-4">
-                        <h3 className="text-xl font-bold text-gray-900 mb-1">
-                          {project.title}
-                        </h3>
-                        <p className="text-gray-600 flex items-center">
-                          <svg className="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                          </svg>
-                          {project.location}
-                        </p>
-                      </div>
-                      <span
-                        className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize border ${getStatusColor(
-                          project.status
-                        )}`}
-                      >
-                        {getStatusIcon(project.status)}
-                        {project.status}
-                      </span>
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {visibleProjects.map((project) => (
+                  <div
+                    key={project._id}
+                    className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-1"
+                  >
+                    <div className="relative h-96 w-full group">
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        priority={false}
+                      />
                     </div>
-
-                    {(project.startDate || project.endDate) && (
-                      <div className="flex items-center text-sm text-gray-500 mb-4">
-                        {project.startDate && (
-                          <span className="flex items-center mr-4">
+                    <div className="p-6">
+                      <div className="flex justify-between items-start mb-4">
+                        <div className="mr-4">
+                          <h3 className="text-xl font-bold text-gray-900 mb-1">
+                            {project.title}
+                          </h3>
+                          <p className="text-gray-600 flex items-center">
                             <svg className="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                              <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                             </svg>
-                            {project.startDate}
-                          </span>
-                        )}
-                        {project.endDate && project.status === 'completed' && (
-                          <span className="flex items-center">
-                            <svg className="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                            </svg>
-                            {project.endDate}
-                          </span>
-                        )}
+                            {project.location}
+                          </p>
+                        </div>
+                        <span
+                          className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize border ${getStatusColor(
+                            project.status
+                          )}`}
+                        >
+                          {getStatusIcon(project.status)}
+                          {project.status}
+                        </span>
                       </div>
-                    )}
-                    <Link href={`/projects/${project._id}`}>
-                      <button className="w-full mt-2 px-4 py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-800 font-medium rounded-lg transition-colors border border-gray-200 flex items-center justify-center">
-                        View Details
-                        <svg className="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                        </svg>
-                      </button>
-                    </Link>
+
+                      {(project.startDate || project.endDate) && (
+                        <div className="flex items-center text-sm text-gray-500 mb-4">
+                          {project.startDate && (
+                            <span className="flex items-center mr-4">
+                              <svg className="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                              </svg>
+                              {project.startDate}
+                            </span>
+                          )}
+                          {project.endDate && project.status === 'completed' && (
+                            <span className="flex items-center">
+                              <svg className="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                              </svg>
+                              {project.endDate}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      <Link href={`/projects/${project._id}`}>
+                        <button className="w-full mt-2 px-4 py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-800 font-medium rounded-lg transition-colors border border-gray-200 flex items-center justify-center">
+                          View Details
+                          <svg className="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                          </svg>
+                        </button>
+                      </Link>
+                    </div>
                   </div>
+                ))}
+              </div>
+
+              {/* View More Button */}
+              {hasMoreProjects && (
+                <div className="flex justify-center mt-10">
+                  <button
+                    onClick={loadMore}
+                    disabled={loadingMore}
+                    className="px-6 py-3 bg-[#7AA859] hover:bg-[#6a9750] text-white font-medium rounded-lg transition-colors flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    {loadingMore ? (
+                      <>
+                        <div className="relative h-5 w-5 mr-2">
+                          <div className="absolute inset-0 rounded-full border-2 border-t-white border-r-white border-b-transparent border-l-transparent animate-spin"></div>
+                        </div>
+                        Loading...
+                      </>
+                    ) : (
+                      'View More Projects'
+                    )}
+                  </button>
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
         </div>
       </div>
