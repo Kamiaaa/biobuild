@@ -3,11 +3,11 @@ import mongoose, { Schema, model, models, Document } from 'mongoose';
 
 export interface IProject extends Document {
   title: string;
-  hoverTitle: string;
-  hoverText: string;
+  hoverTitle?: string; // optional
+  hoverText?: string; // optional
   location: string;
   status: 'ongoing' | 'completed' | 'upcoming';
-  description?: string; // ✅ now optional
+  description?: string; // optional
   size: string;
   units: number;
   floors: string;
@@ -18,8 +18,8 @@ export interface IProject extends Document {
 const ProjectSchema = new Schema<IProject>(
   {
     title: { type: String, required: true },
-    hoverTitle: { type: String, required: true },
-    hoverText: { type: String, required: true },
+    hoverTitle: { type: String },
+    hoverText: { type: String },
     location: { type: String, required: true },
     status: {
       type: String,

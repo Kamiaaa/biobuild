@@ -161,14 +161,14 @@ const AddProjectPage = () => {
               {/* hoverTitle */}
               <div>
                 <label htmlFor="hoverTitle" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Hover Title</label>
-                <input type="text" id="hoverTitle" value={hoverTitle} onChange={(e) => setHoverTitle(e.target.value)} required
+                <input type="text" id="hoverTitle" value={hoverTitle} onChange={(e) => setHoverTitle(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white" />
               </div>
 
               {/* hoverText */}
               <div>
                 <label htmlFor="hoverText" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Hover Text</label>
-                <textarea id="hoverText" rows={4} value={hoverText} onChange={(e) => setHoverText(e.target.value)} required
+                <textarea id="hoverText" rows={4} value={hoverText} onChange={(e) => setHoverText(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white" />
               </div>
 
