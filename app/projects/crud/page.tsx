@@ -29,7 +29,7 @@ export default function ProjectsCrudPage() {
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  const projectsPerPage = 5;
+  const projectsPerPage = 6;
 
   const fetchProjects = async () => {
     setLoading(true);

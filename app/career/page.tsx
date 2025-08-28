@@ -5,8 +5,6 @@ import OpenPositionsSection from '../components/OpenPositionsSection';
 import Link from 'next/link';
 
 export default function CareerPage() {
-  
-
   return (
     <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       {/* Hero Section with Background Image */}
