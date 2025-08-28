@@ -18,7 +18,7 @@ export default function BoardOfDirectorsPage() {
     {
       name: "Architect Md. Mamunur Rahman (Munim)",
       title: "MANAGING DIRECTOR",
-      image: "/img/bod/bod-01.png",
+      image: "/img/bod/md.jpg",
       bio: "Our managing director Architect Md Mamunur Rahman (Munim) plays a pivotal role as an organizer at BIOBUILD Development Ltd, bringing visionary leadership to our projects.",
       link: "/managing-director",
       linkedin: "#",
@@ -27,7 +27,7 @@ export default function BoardOfDirectorsPage() {
     {
       name: "M. M. Rahman Mamun",
       title: "DEPUTY MANAGING DIRECTOR",
-      image: "/img/bod/mamun.png",
+      image: "/img/bod/dmd.jpg",
       bio: "Since 2012, M. M. RAHMAN MAMUN has been actively engaged in the Real Estate Industry, bringing extensive expertise, deep sincerity, and unwavering dedication.",
       link: "/dm-director",
       linkedin: "#",
@@ -36,7 +36,7 @@ export default function BoardOfDirectorsPage() {
     {
       name: "Md. Sujal Ahmed Talukder",
       title: "DIRECTOR & CEO",
-      image: "/img/bod/bod-03.png",
+      image: "/img/bod/ceo.jpg",
       bio: "Our journey begins with a shared vision—to create innovative, eco-friendly spaces that redefine urban living while contributing to a sustainable future.",
       link: "/ceo",
       linkedin: "#",

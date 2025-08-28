@@ -10,7 +10,7 @@ export default function CooPage() {
 He supervises a range of tasks and initiatives, ensuring their seamless implementation and alignment with company protocols.
 
 His leadership style embodies a dedication to excellence and a comprehensive grasp of operational intricacies. Through his guidance, operational goals are attained with efficiency and precision.`,
-        imageUrl: "/img/bod/coo.png", // Replace with your image path
+        imageUrl: "/img/bod/hoo.jpg", // Replace with your image path
         email: "managing-director@biobuild.com",
         phone: "+800 555-0199",
         location: "Dhaka, Bangladesh",

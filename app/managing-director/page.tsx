@@ -10,7 +10,7 @@ export default function ManagingDirectorPage() {
 His sharp intelligence and commitment to timely delivery set him apart as the cornerstone of our management team. He consistently brings new dimensions to our strategies and execution, ensuring that we stay ahead in the competitive Real Estate Development Industry.
 
 His leadership at BIOBUILD Development Ltd continues to thrive and innovate, always pushing the boundaries of what is possible in real estate development.`,
-        imageUrl: "/img/bod/bod-01.png", // Replace with your image path
+        imageUrl: "/img/bod/md.jpg", // Replace with your image path
         email: "managing-director@biobuild.com",
         phone: "+800 555-0199",
         location: "Dhaka, Bangladesh",

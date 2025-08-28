@@ -13,7 +13,7 @@ export default function CeoPage() {
 As a master mariner who has sailed the seas, he understand the delicate balance of ecosystems. Let us build responsibly, leaving a positive footprint.We don’t merely construct buildings; we shape legacies. Our structures will stand as testaments to our commitment to sustainable growth..
 
 Let’s bridge trust among all parties—investors, residents, and collaborators. Let’s create spaces where families thrive, where greenery flourishes, and where dreams find a home.`,
-        imageUrl: "/img/bod/bod-03.png", // Replace with your image path
+        imageUrl: "/img/bod/ceo.jpg", // Replace with your image path
         email: "managing-director@biobuild.com",
         phone: "+800 555-0199",
         location: "Dhaka, Bangladesh",

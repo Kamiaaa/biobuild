@@ -18,9 +18,13 @@ const ViewProjectsPage: React.FC = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isPaused = useRef(false);
+
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [showArrows, setShowArrows] = useState(false);
+
+  // shared position state
+  const [position, setPosition] = useState(0);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -41,106 +45,96 @@ const ViewProjectsPage: React.FC = () => {
 
   // Auto scroll
   useEffect(() => {
-    const slider = sliderRef.current;
-    if (!slider || projects.length === 0) return;
+    if (projects.length === 0) return;
 
     let animationFrameId: number;
-    let speed = 1; // scroll speed (px/frame)
-    let position = 0;
-    const itemWidth = 288; 
+    const speed = 1; // scroll speed (px/frame)
+    const itemWidth = 288;
     const totalWidth = itemWidth * projects.length;
 
     const animate = () => {
       if (!isPaused.current) {
-        position -= speed;
-
-        // Reset seamlessly after one full set
-        if (position <= -totalWidth) {
-          position = 0;
-          slider.style.transition = 'none';
-          slider.style.transform = `translateX(${position}px)`;
-          slider.offsetHeight; // force reflow
-          slider.style.transition = '';
-        }
-
-        slider.style.transform = `translateX(${position}px)`;
+        setPosition(prev => {
+          let newPos = prev - speed;
+          if (newPos <= -totalWidth) {
+            newPos = 0; // seamless reset
+          }
+          return newPos;
+        });
       }
       animationFrameId = requestAnimationFrame(animate);
     };
 
     animationFrameId = requestAnimationFrame(animate);
 
-    const handleMouseEnter = () => { isPaused.current = true };
-    const handleMouseLeave = () => { isPaused.current = false };
+    const slider = sliderRef.current;
+    if (slider) {
+      const handleMouseEnter = () => { isPaused.current = true };
+      const handleMouseLeave = () => { isPaused.current = false };
 
-    slider.addEventListener('mouseenter', handleMouseEnter);
-    slider.addEventListener('mouseleave', handleMouseLeave);
+      slider.addEventListener('mouseenter', handleMouseEnter);
+      slider.addEventListener('mouseleave', handleMouseLeave);
 
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      slider.removeEventListener('mouseenter', handleMouseEnter);
-      slider.removeEventListener('mouseleave', handleMouseLeave);
-    };
+      return () => {
+        cancelAnimationFrame(animationFrameId);
+        slider.removeEventListener('mouseenter', handleMouseEnter);
+        slider.removeEventListener('mouseleave', handleMouseLeave);
+      };
+    }
   }, [projects]);
 
-  // Helper: Get current position
-  const getCurrentPosition = () => {
-    if (!sliderRef.current) return 0;
-    const currentTransform = getComputedStyle(sliderRef.current).transform;
-    const matrix = new DOMMatrix(currentTransform);
-    return matrix.m41; // X translate
+  // Apply transform whenever position changes
+  useEffect(() => {
+    if (sliderRef.current) {
+      if (!isPaused.current) {
+        // auto-scroll: no transition (immediate frame updates)
+        sliderRef.current.style.transition = 'none';
+      } else {
+        // arrow click: smooth transition
+        sliderRef.current.style.transition = 'transform 0.5s ease';
+      }
+      sliderRef.current.style.transform = `translateX(${position}px)`;
+    }
+  }, [position]);
+
+  // Pause helper for arrows
+  const pauseAutoScroll = () => {
+    isPaused.current = true;
+    setTimeout(() => {
+      isPaused.current = false;
+    }, 1500); // 1.5s pause
   };
 
   // Next button
   const handleNext = () => {
-    if (!sliderRef.current || !containerRef.current || projects.length === 0) return;
+    if (!containerRef.current || projects.length === 0) return;
+    pauseAutoScroll();
 
-    const slider = sliderRef.current;
-    const container = containerRef.current;
-    const scrollAmount = container.clientWidth;
-    let currentPosition = getCurrentPosition();
-
-    let newPosition = currentPosition - scrollAmount;
-
-    // totalWidth * 2 because we doubled the list
-    const totalWidth = 288 * projects.length * 2;
-
-    if (Math.abs(newPosition) >= totalWidth / 2) {
-      // reset to start of second half
-      slider.style.transition = 'none';
-      slider.style.transform = `translateX(0px)`;
-      slider.offsetHeight;
-      slider.style.transition = 'transform 0.5s ease';
-      newPosition = -scrollAmount;
-    }
-
-    slider.style.transition = 'transform 0.5s ease';
-    slider.style.transform = `translateX(${newPosition}px)`;
+    const scrollAmount = containerRef.current.clientWidth;
+    setPosition(prev => {
+      const totalWidth = 288 * projects.length * 2;
+      let newPos = prev - scrollAmount;
+      if (Math.abs(newPos) >= totalWidth / 2) {
+        return -scrollAmount; // reset to second half
+      }
+      return newPos;
+    });
   };
 
   // Prev button
   const handlePrev = () => {
-    if (!sliderRef.current || !containerRef.current || projects.length === 0) return;
+    if (!containerRef.current || projects.length === 0) return;
+    pauseAutoScroll();
 
-    const slider = sliderRef.current;
-    const container = containerRef.current;
-    const scrollAmount = container.clientWidth;
-    let currentPosition = getCurrentPosition();
-
-    let newPosition = currentPosition + scrollAmount;
-
-    if (newPosition > 0) {
-      // Jump to the second copy's end
-      const totalWidth = 288 * projects.length;
-      slider.style.transition = 'none';
-      slider.style.transform = `translateX(${-totalWidth}px)`;
-      slider.offsetHeight;
-      slider.style.transition = 'transform 0.5s ease';
-      newPosition = -(totalWidth - scrollAmount);
-    }
-
-    slider.style.transition = 'transform 0.5s ease';
-    slider.style.transform = `translateX(${newPosition}px)`;
+    const scrollAmount = containerRef.current.clientWidth;
+    setPosition(prev => {
+      let newPos = prev + scrollAmount;
+      if (newPos > 0) {
+        const totalWidth = 288 * projects.length;
+        return -(totalWidth - scrollAmount);
+      }
+      return newPos;
+    });
   };
 
   if (loading) {
@@ -168,14 +162,14 @@ const ViewProjectsPage: React.FC = () => {
       <div className="relative w-full overflow-hidden" ref={containerRef}>
         {showArrows && (
           <>
-            <button 
+            <button
               onClick={handlePrev}
               className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
               aria-label="Previous projects"
             >
               <FaChevronLeft className="text-xl" />
             </button>
-            <button 
+            <button
               onClick={handleNext}
               className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
               aria-label="Next projects"

@@ -19,7 +19,7 @@ He is committed to building a capable and dedicated team where each member is em
 With a profound understanding of market dynamics and future trends, he formulates business strategies and leads new project planning and development through thorough research and analysis.
 
 Above all, he relies on the blessings and guidance of ALMIGHTY ALLAH, striving to advance the company with integrity, determination, and unwavering faith in every situation.`,
-        imageUrl: "/img/bod/mamun.png", // Replace with your image path
+        imageUrl: "/img/bod/dmd.jpg", // Replace with your image path
         email: "managing-director@biobuild.com",
         phone: "+800 555-0199",
         location: "Dhaka, Bangladesh",
