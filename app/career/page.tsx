@@ -1,19 +1,12 @@
 import React from 'react';
-import { useState, useEffect } from "react";
 import { FaHandshake, FaChartLine, FaLightbulb } from 'react-icons/fa';
 import { HiOutlineOfficeBuilding, HiOutlineBriefcase } from 'react-icons/hi';
 import OpenPositionsSection from '../components/OpenPositionsSection';
 import Link from 'next/link';
-import { useRouter } from "next/navigation";
-export default function CareerPage() {
-  const router = useRouter();
 
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (!user) {
-      router.push("/login");
-    }
-  }, [router]);
+export default function CareerPage() {
+  
+
   return (
     <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       {/* Hero Section with Background Image */}
