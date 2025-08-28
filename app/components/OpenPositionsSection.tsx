@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+
 import { HiOutlineMapPin, HiOutlineBriefcase } from "react-icons/hi2";
 import ApplyModal from "./ApplyModal";
 
@@ -13,7 +13,6 @@ interface Job {
 }
 
 export default function OpenPositionsSection() {
-  const router = useRouter();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,12 +31,7 @@ export default function OpenPositionsSection() {
     };
     fetchJobs();
   }, []);
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (!user) {
-      router.push("/login");
-    }
-  }, [router]);
+  
   return (
     <section id="positions" className="px-6 py-24 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-6xl mx-auto">
