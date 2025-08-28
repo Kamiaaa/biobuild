@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { HiOutlineMapPin, HiOutlineBriefcase } from "react-icons/hi2";
 import ApplyModal from "./ApplyModal";
 
@@ -12,6 +13,7 @@ interface Job {
 }
 
 export default function OpenPositionsSection() {
+  const router = useRouter();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,7 +32,12 @@ export default function OpenPositionsSection() {
     };
     fetchJobs();
   }, []);
-
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      router.push("/login");
+    }
+  }, [router]);
   return (
     <section id="positions" className="px-6 py-24 bg-gray-50 dark:bg-gray-900">
       <div className="max-w-6xl mx-auto">
@@ -62,7 +69,7 @@ export default function OpenPositionsSection() {
                     <h3 className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-[#7AA859] transition-colors truncate"> {/* Added truncate */}
                       {job.title}
                     </h3>
-                    
+
                     <div className="flex flex-wrap gap-4">
                       <div className="flex items-center text-gray-600 dark:text-gray-300">
                         <HiOutlineMapPin className="mr-2 h-5 w-5 text-[#7AA859]" />
@@ -75,12 +82,12 @@ export default function OpenPositionsSection() {
                         </div>
                       )}
                     </div>
-                    
+
                     <p className="text-gray-600 text-justify dark:text-gray-300 leading-relaxed line-clamp-3"> {/* Added line-clamp */}
                       {job.description}
                     </p>
                   </div>
-                  
+
                   <div className="flex-shrink-0"> {/* Ensures button doesn't shrink */}
                     <button
                       onClick={() => setSelectedJob(job)}
@@ -103,9 +110,9 @@ export default function OpenPositionsSection() {
       </div>
 
       {selectedJob && (
-        <ApplyModal 
-          job={selectedJob} 
-          onClose={() => setSelectedJob(null)} 
+        <ApplyModal
+          job={selectedJob}
+          onClose={() => setSelectedJob(null)}
         />
       )}
     </section>
