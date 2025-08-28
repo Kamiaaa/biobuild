@@ -1,15 +1,24 @@
 import React from 'react';
+import { useState, useEffect } from "react";
 import { FaHandshake, FaChartLine, FaLightbulb } from 'react-icons/fa';
 import { HiOutlineOfficeBuilding, HiOutlineBriefcase } from 'react-icons/hi';
 import OpenPositionsSection from '../components/OpenPositionsSection';
 import Link from 'next/link';
-
+import { useRouter } from "next/navigation";
 export default function CareerPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      router.push("/login");
+    }
+  }, [router]);
   return (
     <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       {/* Hero Section with Background Image */}
       <section className="relative px-4 py-32 text-center bg-gray-900 overflow-hidden">
-        
+
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           <img
@@ -43,16 +52,16 @@ export default function CareerPage() {
       <section className="px-4 py-10 bg-white dark:bg-gray-900">
         <div className="max-w-6xl mx-auto">
           {/* Back to Home Button */}
-        <div className="mb-6">
-          <Link href="/">
-            <button className="flex items-center text-[#7AA859] hover:text-green-700 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
-              </svg>
-              Back to Home
-            </button>
-          </Link>
-        </div>
+          <div className="mb-6">
+            <Link href="/">
+              <button className="flex items-center text-[#7AA859] hover:text-green-700 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+                </svg>
+                Back to Home
+              </button>
+            </Link>
+          </div>
           <div className="text-center mb-16">
             <h2 className="text-3xl font-poppins dark:text-gray-50 mb-4">
               Why Join Our Team?

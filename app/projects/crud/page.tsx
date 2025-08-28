@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import Link from 'next/link';
 import { FiEdit, FiTrash2, FiPlus } from 'react-icons/fi';
@@ -20,6 +21,7 @@ interface Project {
 }
 
 export default function ProjectsCrudPage() {
+  const router = useRouter();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -78,6 +80,13 @@ export default function ProjectsCrudPage() {
       setDeleting(null);
     }
   };
+
+  useEffect(() => {
+        const user = localStorage.getItem("user");
+        if (!user) {
+            router.push("/login");
+        }
+    }, [router]);
 
   return (
     <Layout>

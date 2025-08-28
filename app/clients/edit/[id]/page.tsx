@@ -73,7 +73,12 @@ export default function EditClientPage() {
       setSubmitting(false);
     }
   };
-
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      router.push("/login");
+    }
+  }, [router]);
   if (loading) {
     return (
       <Layout>
@@ -100,11 +105,10 @@ export default function EditClientPage() {
 
         {message && (
           <div
-            className={`mb-6 p-4 rounded-lg ${
-              message.type === 'success'
+            className={`mb-6 p-4 rounded-lg ${message.type === 'success'
                 ? 'bg-green-50 text-green-800 dark:bg-green-900 dark:text-green-100'
                 : 'bg-red-50 text-red-800 dark:bg-red-900 dark:text-red-100'
-            }`}
+              }`}
           >
             {message.text}
           </div>

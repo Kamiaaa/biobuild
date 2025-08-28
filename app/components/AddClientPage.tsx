@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiArrowLeft, FiSave, FiUpload } from 'react-icons/fi';
 import Image from 'next/image';
@@ -58,7 +58,12 @@ export default function AddClientPage() {
       setLoading(false);
     }
   };
-
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      router.push("/login");
+    }
+  }, [router]);
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
@@ -75,11 +80,10 @@ export default function AddClientPage() {
           </div>
 
           {message && (
-            <div className={`mb-6 p-4 rounded-lg ${
-              message.type === 'success'
-                ? 'bg-green-50 text-green-800 dark:bg-green-900 dark:text-green-100'
-                : 'bg-red-50 text-red-800 dark:bg-red-900 dark:text-red-100'
-            }`}>
+            <div className={`mb-6 p-4 rounded-lg ${message.type === 'success'
+              ? 'bg-green-50 text-green-800 dark:bg-green-900 dark:text-green-100'
+              : 'bg-red-50 text-red-800 dark:bg-red-900 dark:text-red-100'
+              }`}>
               {message.text}
             </div>
           )}

@@ -1,16 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiSave, FiArrowLeft } from 'react-icons/fi';
 import Layout from '@/app/components/Layout';
 
 export default function AddJobPage() {
     const router = useRouter();
-    const [form, setForm] = useState({ 
-        title: '', 
-        location: '', 
-        description: '' 
+    const [form, setForm] = useState({
+        title: '',
+        location: '',
+        description: ''
     });
     const [uploading, setUploading] = useState(false);
     const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
@@ -42,6 +42,13 @@ export default function AddJobPage() {
             setUploading(false);
         }
     };
+
+    useEffect(() => {
+        const user = localStorage.getItem("user");
+        if (!user) {
+            router.push("/login");
+        }
+    }, [router]);
 
     return (
         <Layout>

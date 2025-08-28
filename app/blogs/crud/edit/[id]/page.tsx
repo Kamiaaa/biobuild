@@ -37,7 +37,7 @@ export default function EditBlogPage() {
       try {
         const res = await fetch(`/api/blog-posts/${id}`);
         if (!res.ok) throw new Error('Failed to fetch blog post');
-        
+
         const data = await res.json();
         setForm({
           title: data.title,
@@ -49,9 +49,9 @@ export default function EditBlogPage() {
         setMessage(null);
       } catch (error) {
         console.error('Failed to fetch blog post:', error);
-        setMessage({ 
-          text: error instanceof Error ? error.message : 'Failed to load blog post', 
-          type: 'error' 
+        setMessage({
+          text: error instanceof Error ? error.message : 'Failed to load blog post',
+          type: 'error'
         });
       } finally {
         setLoading(false);
@@ -127,9 +127,9 @@ export default function EditBlogPage() {
       setTimeout(() => router.push('/blogs/crud'), 1000);
     } catch (error: any) {
       console.error('Error:', error);
-      setMessage({ 
-        text: error.message || 'Error updating blog post', 
-        type: 'error' 
+      setMessage({
+        text: error.message || 'Error updating blog post',
+        type: 'error'
       });
     } finally {
       setSubmitting(false);
@@ -154,14 +154,20 @@ export default function EditBlogPage() {
       router.push('/blogs/crud');
     } catch (error: any) {
       console.error('Delete error:', error);
-      setMessage({ 
-        text: error.message || 'Delete failed', 
-        type: 'error' 
+      setMessage({
+        text: error.message || 'Delete failed',
+        type: 'error'
       });
     } finally {
       setIsDeleting(false);
     }
   };
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      router.push("/login");
+    }
+  }, [router]);
 
   if (loading) {
     return (
@@ -193,8 +199,8 @@ export default function EditBlogPage() {
           </div>
 
           {message && (
-            <div className={`mb-6 p-4 rounded-lg ${message.type === 'success' ? 
-              'bg-green-50 text-green-800 dark:bg-green-900 dark:text-green-100' : 
+            <div className={`mb-6 p-4 rounded-lg ${message.type === 'success' ?
+              'bg-green-50 text-green-800 dark:bg-green-900 dark:text-green-100' :
               'bg-red-50 text-red-800 dark:bg-red-900 dark:text-red-100'}`}
             >
               {message.text}
@@ -294,10 +300,10 @@ export default function EditBlogPage() {
                   <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     {newImageFile ? 'New Image Preview' : 'Current Image'}
                   </h3>
-                  <img 
-                    src={newImageFile ? URL.createObjectURL(newImageFile) : form.imageUrl} 
-                    alt="Blog post preview" 
-                    className="max-w-full h-auto max-h-64 rounded-lg border border-gray-200 dark:border-gray-600" 
+                  <img
+                    src={newImageFile ? URL.createObjectURL(newImageFile) : form.imageUrl}
+                    alt="Blog post preview"
+                    className="max-w-full h-auto max-h-64 rounded-lg border border-gray-200 dark:border-gray-600"
                   />
                 </div>
               )}
@@ -312,7 +318,7 @@ export default function EditBlogPage() {
                   <FiTrash2 className="mr-2" />
                   {isDeleting ? 'Deleting...' : 'Delete Post'}
                 </button>
-                
+
                 <div className="flex space-x-4">
                   <button
                     type="button"

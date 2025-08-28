@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
 import { FiEdit, FiTrash, FiPlus } from 'react-icons/fi';
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import Layout from '@/app/components/Layout';
@@ -16,6 +17,7 @@ interface BlogPost {
 }
 
 export default function BlogCrudPage() {
+  const router = useRouter();
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -74,7 +76,12 @@ export default function BlogCrudPage() {
       setDeleting(null);
     }
   };
-
+useEffect(() => {
+        const user = localStorage.getItem("user");
+        if (!user) {
+            router.push("/login");
+        }
+    }, [router]);
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">

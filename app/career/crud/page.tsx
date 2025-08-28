@@ -1,6 +1,7 @@
 'use client';
 import Layout from '@/app/components/Layout';
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from 'react';
 
 interface Job {
@@ -11,6 +12,7 @@ interface Job {
 }
 
 export default function AdminJobsPage() {
+  const router = useRouter();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -31,7 +33,12 @@ export default function AdminJobsPage() {
       fetchJobs();
     }
   };
-
+useEffect(() => {
+        const user = localStorage.getItem("user");
+        if (!user) {
+            router.push("/login");
+        }
+    }, [router]);
   return (
     <Layout>
       <div className="max-w-4xl mx-auto py-24">

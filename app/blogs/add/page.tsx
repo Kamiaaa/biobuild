@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiUpload, FiSave, FiArrowLeft } from 'react-icons/fi';
 import Layout from '@/app/components/Layout';
@@ -82,7 +82,12 @@ export default function AddBlogPage() {
       setUploading(false);
     }
   };
-
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      router.push("/login");
+    }
+  }, [router]);
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
@@ -193,10 +198,10 @@ export default function AddBlogPage() {
               {imageUrl && (
                 <div className="mt-4">
                   <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Image Preview:</h3>
-                  <img 
-                    src={imageUrl} 
-                    alt="Uploaded preview" 
-                    className="max-w-full h-auto max-h-64 rounded-lg border border-gray-200 dark:border-gray-600" 
+                  <img
+                    src={imageUrl}
+                    alt="Uploaded preview"
+                    className="max-w-full h-auto max-h-64 rounded-lg border border-gray-200 dark:border-gray-600"
                   />
                 </div>
               )}

@@ -65,9 +65,9 @@ const EditProjectContent = () => {
         const data = await res.json();
         setForm(data);
       } catch (err) {
-        setMessage({ 
-          text: err instanceof Error ? err.message : 'Failed to fetch project', 
-          type: 'error' 
+        setMessage({
+          text: err instanceof Error ? err.message : 'Failed to fetch project',
+          type: 'error'
         });
       } finally {
         setLoading(false);
@@ -93,13 +93,13 @@ const EditProjectContent = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.[0]) return;
-    
+
     const file = e.target.files[0];
     if (file.size > 5 * 1024 * 1024) {
       setMessage({ text: 'Image size must be less than 5MB', type: 'error' });
       return;
     }
-    
+
     setImageFile(file);
     setImagePreview(URL.createObjectURL(file));
     setMessage(null);
@@ -159,9 +159,9 @@ const EditProjectContent = () => {
       setMessage({ text: 'Project updated successfully!', type: 'success' });
       setTimeout(() => router.push('/projects/crud'), 1000);
     } catch (err) {
-      setMessage({ 
-        text: err instanceof Error ? err.message : 'An unexpected error occurred', 
-        type: 'error' 
+      setMessage({
+        text: err instanceof Error ? err.message : 'An unexpected error occurred',
+        type: 'error'
       });
     } finally {
       setSubmitting(false);
@@ -185,14 +185,20 @@ const EditProjectContent = () => {
 
       router.push('/projects/crud');
     } catch (err) {
-      setMessage({ 
-        text: err instanceof Error ? err.message : 'Delete failed', 
-        type: 'error' 
+      setMessage({
+        text: err instanceof Error ? err.message : 'Delete failed',
+        type: 'error'
       });
     } finally {
       setIsDeleting(false);
     }
   };
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      router.push("/login");
+    }
+  }, [router]);
 
   if (loading) {
     return (
@@ -224,8 +230,8 @@ const EditProjectContent = () => {
           </div>
 
           {message && (
-            <div className={`mb-6 p-4 rounded-lg ${message.type === 'success' ? 
-              'bg-green-50 text-green-800 dark:bg-green-900 dark:text-green-100' : 
+            <div className={`mb-6 p-4 rounded-lg ${message.type === 'success' ?
+              'bg-green-50 text-green-800 dark:bg-green-900 dark:text-green-100' :
               'bg-red-50 text-red-800 dark:bg-red-900 dark:text-red-100'}`}
             >
               {message.text}
@@ -451,11 +457,11 @@ const EditProjectContent = () => {
                     {imagePreview ? 'New Image Preview' : 'Current Image'}
                   </h3>
                   <div className="relative w-full h-64 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
-                    <Image 
-                      src={imagePreview || form.image} 
-                      alt="Project preview" 
-                      fill 
-                      className="object-cover" 
+                    <Image
+                      src={imagePreview || form.image}
+                      alt="Project preview"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                 </div>
@@ -471,7 +477,7 @@ const EditProjectContent = () => {
                   <FiTrash2 className="mr-2" />
                   {isDeleting ? 'Deleting...' : 'Delete Project'}
                 </button>
-                
+
                 <div className="flex space-x-4">
                   <button
                     type="button"

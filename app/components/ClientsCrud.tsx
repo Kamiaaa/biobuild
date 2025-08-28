@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
 import { FiEdit, FiTrash2, FiPlus } from 'react-icons/fi';
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import Layout from './Layout';
@@ -19,6 +20,7 @@ interface ClientsResponse {
 }
 
 export default function ClientsCrud() {
+  const router = useRouter();
   const [clientsData, setClientsData] = useState<ClientsResponse>({
     locations: [],
     total: 0
@@ -66,7 +68,12 @@ export default function ClientsCrud() {
   };
 
   const totalPages = Math.ceil(clientsData.total / limit);
-
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      router.push("/login");
+    }
+  }, [router]);
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
@@ -188,7 +195,7 @@ export default function ClientsCrud() {
                 >
                   <IoMdArrowBack />
                 </button>
-                
+
                 {Array.from({ length: totalPages }, (_, i) => (
                   <button
                     key={i + 1}
@@ -198,7 +205,7 @@ export default function ClientsCrud() {
                     {i + 1}
                   </button>
                 ))}
-                
+
                 <button
                   onClick={() => setPage(p => Math.min(p + 1, totalPages))}
                   disabled={page === totalPages}

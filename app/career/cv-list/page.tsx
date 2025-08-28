@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from "next/navigation";
 import { FiDownload, FiClock, FiUser, FiMail, FiBriefcase, FiLoader, FiTrash2 } from 'react-icons/fi';
 import { FaRegSadTear } from 'react-icons/fa';
 import Layout from '@/app/components/Layout';
@@ -20,6 +21,7 @@ interface Application {
 }
 
 export default function CvListPage() {
+  const router = useRouter();
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -86,7 +88,12 @@ export default function CvListPage() {
     setDeletingId(null);
   }
 };
-  
+  useEffect(() => {
+        const user = localStorage.getItem("user");
+        if (!user) {
+            router.push("/login");
+        }
+    }, [router]);
 
   return (
     <Layout>

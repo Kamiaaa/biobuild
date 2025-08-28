@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
 import { FiEdit, FiTrash, FiPlus } from 'react-icons/fi';
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import Layout from '@/app/components/Layout';
@@ -14,11 +15,12 @@ interface Location {
 }
 
 export default function ManagePrimeLocationsPage() {
+    const router = useRouter();
     const [locations, setLocations] = useState<Location[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [deleting, setDeleting] = useState<string | null>(null);
-    
+
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const locationsPerPage = 3; // Items per page
@@ -72,7 +74,12 @@ export default function ManagePrimeLocationsPage() {
             setDeleting(null);
         }
     };
-
+    useEffect(() => {
+        const user = localStorage.getItem("user");
+        if (!user) {
+            router.push("/login");
+        }
+    }, [router]);
     return (
         <Layout>
             <div className="container mx-auto px-4 py-8">
@@ -215,7 +222,7 @@ export default function ManagePrimeLocationsPage() {
                                 >
                                     <IoMdArrowBack />
                                 </button>
-                                
+
                                 {Array.from({ length: totalPages }, (_, i) => (
                                     <button
                                         key={i + 1}
@@ -225,7 +232,7 @@ export default function ManagePrimeLocationsPage() {
                                         {i + 1}
                                     </button>
                                 ))}
-                                
+
                                 <button
                                     onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
                                     disabled={currentPage === totalPages}

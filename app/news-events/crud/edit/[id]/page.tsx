@@ -38,9 +38,9 @@ export default function EditNewsEventPage() {
         setForm(data);
         setPreview(data.image);
       } catch (err) {
-        setMessage({ 
-          text: err instanceof Error ? err.message : 'Failed to load item', 
-          type: 'error' 
+        setMessage({
+          text: err instanceof Error ? err.message : 'Failed to load item',
+          type: 'error'
         });
       } finally {
         setLoading(false);
@@ -56,13 +56,13 @@ export default function EditNewsEventPage() {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.[0]) return;
-    
+
     const file = e.target.files[0];
     if (file.size > 5 * 1024 * 1024) {
       setMessage({ text: 'Image size must be less than 5MB', type: 'error' });
       return;
     }
-    
+
     setImageFile(file);
     setPreview(URL.createObjectURL(file));
     setMessage(null);
@@ -103,9 +103,9 @@ export default function EditNewsEventPage() {
       setMessage({ text: 'Item updated successfully!', type: 'success' });
       setTimeout(() => router.push('/news-events/crud'), 1000);
     } catch (err) {
-      setMessage({ 
-        text: err instanceof Error ? err.message : 'An unexpected error occurred', 
-        type: 'error' 
+      setMessage({
+        text: err instanceof Error ? err.message : 'An unexpected error occurred',
+        type: 'error'
       });
     } finally {
       setSubmitting(false);
@@ -129,15 +129,20 @@ export default function EditNewsEventPage() {
 
       router.push('/news-events/crud');
     } catch (err) {
-      setMessage({ 
-        text: err instanceof Error ? err.message : 'Delete failed', 
-        type: 'error' 
+      setMessage({
+        text: err instanceof Error ? err.message : 'Delete failed',
+        type: 'error'
       });
     } finally {
       setIsDeleting(false);
     }
   };
-
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      router.push("/login");
+    }
+  }, [router]);
   if (loading) {
     return (
       <Layout>
@@ -168,8 +173,8 @@ export default function EditNewsEventPage() {
           </div>
 
           {message && (
-            <div className={`mb-6 p-4 rounded-lg ${message.type === 'success' ? 
-              'bg-green-50 text-green-800 dark:bg-green-900 dark:text-green-100' : 
+            <div className={`mb-6 p-4 rounded-lg ${message.type === 'success' ?
+              'bg-green-50 text-green-800 dark:bg-green-900 dark:text-green-100' :
               'bg-red-50 text-red-800 dark:bg-red-900 dark:text-red-100'}`}
             >
               {message.text}
@@ -289,10 +294,10 @@ export default function EditNewsEventPage() {
                   <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     {imageFile ? 'New Image Preview' : 'Current Image'}
                   </h3>
-                  <img 
-                    src={preview || form.image} 
-                    alt="Preview" 
-                    className="max-w-full h-auto max-h-64 rounded-lg border border-gray-200 dark:border-gray-600" 
+                  <img
+                    src={preview || form.image}
+                    alt="Preview"
+                    className="max-w-full h-auto max-h-64 rounded-lg border border-gray-200 dark:border-gray-600"
                   />
                 </div>
               )}
@@ -307,7 +312,7 @@ export default function EditNewsEventPage() {
                   <FiTrash2 className="mr-2" />
                   {isDeleting ? 'Deleting...' : 'Delete Item'}
                 </button>
-                
+
                 <div className="flex space-x-4">
                   <button
                     type="button"

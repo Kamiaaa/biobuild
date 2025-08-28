@@ -24,21 +24,21 @@ export default function EditPrimeLocationPage() {
       try {
         const res = await fetch(`/api/prime-locations`);
         if (!res.ok) throw new Error('Failed to fetch locations');
-        
+
         const data = await res.json();
         const location = data.locations.find((loc: any) => loc._id === id);
-        
+
         if (!location) throw new Error('Location not found');
-        
+
         setName(location.name);
         setDescription(location.description);
         setExistingImageUrl(location.image);
         setMessage(null);
       } catch (error) {
         console.error('Failed to fetch location:', error);
-        setMessage({ 
-          text: error instanceof Error ? error.message : 'Failed to load location', 
-          type: 'error' 
+        setMessage({
+          text: error instanceof Error ? error.message : 'Failed to load location',
+          type: 'error'
         });
       } finally {
         setLoading(false);
@@ -50,7 +50,7 @@ export default function EditPrimeLocationPage() {
 
   const handleImageUpload = async (): Promise<string> => {
     if (!image) throw new Error('No image selected');
-    
+
     const formData = new FormData();
     const baseName = image.name.split('.')[0];
 
@@ -100,9 +100,9 @@ export default function EditPrimeLocationPage() {
       setTimeout(() => router.push('/prime-locations/crud'), 1000);
     } catch (error: any) {
       console.error('Error:', error);
-      setMessage({ 
-        text: error.message || 'Error updating location', 
-        type: 'error' 
+      setMessage({
+        text: error.message || 'Error updating location',
+        type: 'error'
       });
     } finally {
       setLoading(false);
@@ -127,15 +127,20 @@ export default function EditPrimeLocationPage() {
       router.push('/prime-locations/crud');
     } catch (error: any) {
       console.error('Delete error:', error);
-      setMessage({ 
-        text: error.message || 'Delete failed', 
-        type: 'error' 
+      setMessage({
+        text: error.message || 'Delete failed',
+        type: 'error'
       });
     } finally {
       setIsDeleting(false);
     }
   };
-
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      router.push("/login");
+    }
+  }, [router]);
   if (loading) {
     return (
       <Layout>
@@ -166,8 +171,8 @@ export default function EditPrimeLocationPage() {
           </div>
 
           {message && (
-            <div className={`mb-6 p-4 rounded-lg ${message.type === 'success' ? 
-              'bg-green-50 text-green-800 dark:bg-green-900 dark:text-green-100' : 
+            <div className={`mb-6 p-4 rounded-lg ${message.type === 'success' ?
+              'bg-green-50 text-green-800 dark:bg-green-900 dark:text-green-100' :
               'bg-red-50 text-red-800 dark:bg-red-900 dark:text-red-100'}`}
             >
               {message.text}
@@ -235,10 +240,10 @@ export default function EditPrimeLocationPage() {
                   <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     {image ? 'New Image Preview' : 'Current Image'}
                   </h3>
-                  <img 
-                    src={image ? URL.createObjectURL(image) : existingImageUrl} 
-                    alt="Location preview" 
-                    className="max-w-full h-auto max-h-64 rounded-lg border border-gray-200 dark:border-gray-600" 
+                  <img
+                    src={image ? URL.createObjectURL(image) : existingImageUrl}
+                    alt="Location preview"
+                    className="max-w-full h-auto max-h-64 rounded-lg border border-gray-200 dark:border-gray-600"
                   />
                 </div>
               )}
@@ -253,7 +258,7 @@ export default function EditPrimeLocationPage() {
                   <FiTrash2 className="mr-2" />
                   {isDeleting ? 'Deleting...' : 'Delete Location'}
                 </button>
-                
+
                 <div className="flex space-x-4">
                   <button
                     type="button"

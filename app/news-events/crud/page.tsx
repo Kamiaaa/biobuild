@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import Link from 'next/link';
 import { FiEdit, FiTrash2, FiPlus } from 'react-icons/fi';
@@ -25,6 +26,7 @@ interface NewsEventsResponse {
 }
 
 export default function AdminNewsEventsPage() {
+  const router = useRouter();
   const [newsEventsData, setNewsEventsData] = useState<NewsEventsResponse>({
     data: [],
     total: 0,
@@ -77,7 +79,12 @@ export default function AdminNewsEventsPage() {
       setDeleting(null);
     }
   };
-
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      router.push("/login");
+    }
+  }, [router]);
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
@@ -232,7 +239,7 @@ export default function AdminNewsEventsPage() {
                 >
                   <IoMdArrowBack />
                 </button>
-                
+
                 {Array.from({ length: newsEventsData.totalPages }, (_, i) => (
                   <button
                     key={i + 1}
@@ -242,7 +249,7 @@ export default function AdminNewsEventsPage() {
                     {i + 1}
                   </button>
                 ))}
-                
+
                 <button
                   onClick={() => {
                     const nextPage = Math.min(newsEventsData.page + 1, newsEventsData.totalPages);

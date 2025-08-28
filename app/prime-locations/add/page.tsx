@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FiUpload, FiSave, FiArrowLeft } from 'react-icons/fi';
 import Layout from '@/app/components/Layout';
@@ -72,7 +72,12 @@ export default function AddPrimeLocationPage() {
       setLoading(false);
     }
   };
-
+useEffect(() => {
+        const user = localStorage.getItem("user");
+        if (!user) {
+            router.push("/login");
+        }
+    }, [router]);
   return (
     <Layout>
     <div className="container mx-auto px-4 py-8">
