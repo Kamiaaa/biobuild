@@ -1,8 +1,5 @@
 import Link from 'next/link';
 import React from 'react';
-import { FaBuilding, FaHome, FaChartLine, FaUsers } from 'react-icons/fa';
-import { HiOutlineLightBulb, HiOutlineGlobeAlt } from 'react-icons/hi';
-
 export default function StoryPage() {
     // Milestones data
     const milestones = [
@@ -43,22 +40,22 @@ export default function StoryPage() {
         {
             name: "Architect Md. Mamunur Rahman (Munim)",
             position: "MANAGING DIRECTOR",
-            image: "/img/bod/bod-01.png"
+            image: "/img/bod/md.jpg"
         },
         {
             name: "M. M. Rahman Mamun",
             position: "DEPUTY MANAGING DIRECTOR",
-            image: "/img/bod/mamun.png"
+            image: "/img/bod/dmd.jpg"
         },
         {
             name: "Md. Sujal Ahmed Talukder",
             position: "DIRECTOR & CEO",
-            image: "/img/bod/bod-03.png"
+            image: "/img/bod/ceo.jpg"
         },
         {
-            name: "Architect Mir Ashiqur Rahman",
-            position: "DIRECTOR",
-            image: "/img/bod/bod-04.png"
+            name: "Lt Cdr Tauhid Hossain (Retd)",
+            position: "HOO",
+            image: "/img/bod/hoo.jpg"
         }
     ];
 
@@ -103,16 +100,16 @@ export default function StoryPage() {
                     <div className="flex flex-col lg:flex-row gap-12 items-center">
                         <div className="lg:w-1/2">
                             <h2 className="text-3xl font-poppins dark:text-gray-50 mb-6">
-                                Humble Beginnings, Bold Vision
+                                Background
                             </h2>
-                            <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">
-                                Founded in 2009 by real estate visionary John Smith, our company started with a single renovated brownstone in downtown Chicago. What began as a passion project quickly grew into a mission to redefine urban living.
+                            <p className="text-justify dark:text-gray-300 mb-4">
+                                Our architectural journey began in 2009 as a professional practice and evolved into a more streamlined professional entity in 2013. From the start, we have been committed to establishing a framework that prioritizes sustainability.
                             </p>
-                            <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">
-                                From that first property, we've expanded to become one of the most respected development firms in the Midwest, with projects spanning residential, commercial, and mixed-use developments.
+                            <p className="text-justify dark:text-gray-300 mb-4">
+                                Sustainable architecture encompasses structures designed to minimize the impact of human activity on the environment. Our eco-conscious approach to modern construction addresses every detail of the planning and building process, from carefully selecting building materials to implementing efficient heating, cooling, plumbing, waste, and ventilation systems, while integrating the built environment harmoniously into the natural landscape.
                             </p>
-                            <p className="text-lg text-gray-600 dark:text-gray-300">
-                                Our founder's original vision - to create spaces that inspire and communities that thrive - remains at the heart of everything we do.
+                            <p className="text-justify dark:text-gray-300">
+                                The concept of green and sustainable building, while not new, has never been more important. The construction sector significantly contributes to climate change, and buildings are responsible for a substantial portion of global energy waste.
                             </p>
                         </div>
                         <div className="lg:w-1/2">

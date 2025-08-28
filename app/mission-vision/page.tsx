@@ -31,17 +31,17 @@ export default function MissionVisionPage() {
       {/* Mission Section */}
       <section className="px-4 py-20 bg-white dark:bg-gray-900">
         <div className="max-w-6xl mx-auto">
-           {/* Back to Home Button */}
-            <div className="mb-6">
-              <Link href="/">
-                <button className="flex items-center text-[#7AA859] hover:text-green-700 transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
-                  </svg>
-                  Back to Home
-                </button>
-              </Link>
-            </div>
+          {/* Back to Home Button */}
+          <div className="mb-6">
+            <Link href="/">
+              <button className="flex items-center text-[#7AA859] hover:text-green-700 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+                </svg>
+                Back to Home
+              </button>
+            </Link>
+          </div>
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <div className="lg:w-1/2">
               <div className="bg-[#7AA859] text-white p-4 rounded-full w-16 h-16 flex items-center justify-center mb-6">
@@ -50,10 +50,17 @@ export default function MissionVisionPage() {
               <h2 className="text-3xl font-poppins dark:text-gray-50 mb-6">
                 Our Mission
               </h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-6">
-                To create exceptional living and working spaces that enrich communities while delivering sustainable value to all stakeholders.
+              <h3 className='text-xl font-poppins font-semibold dark:text-gray-50'>
+                Sustainable Design
+              </h3>
+              <p className="text-xl text-gray-600 text-justify dark:text-gray-300 py-3">
+                Our mission is to design and construct environmentally friendly buildings that promote sustainability and harmony with nature. We aim to integrate innovative architectural solutions that minimize environmental impact while maximizing comfort and functionality for occupants.
               </p>
-              <div className="space-y-6">
+              <p className="text-xl text-gray-600 text-justify dark:text-gray-300 mb-2">
+                Building Relationships
+                We also strive to cultivate strong relationships with clients and communities, fostering trust and collaboration. Through these efforts, we are committed to contributing to a sustainable future for cities and generations to come.
+              </p>
+              {/* <div className="space-y-6">
                 <div className="flex items-start">
                   <div className="flex-shrink-0 mt-1 text-[#7AA859]">
                     <FaHandshake className="h-5 w-5" />
@@ -87,11 +94,11 @@ export default function MissionVisionPage() {
                     </p>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="lg:w-1/2">
               <img
-                className="w-full rounded-xl shadow-2xl"
+                className="w-full h-auto rounded-xl shadow-2xl"
                 src="https://images.unsplash.com/photo-1455849318743-b2233052fcff?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Team discussing building plans"
               />
@@ -106,7 +113,7 @@ export default function MissionVisionPage() {
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <div className="lg:w-1/2 order-2 lg:order-1">
               <img
-                className="w-full rounded-xl shadow-2xl"
+                className="w-full h-auto rounded-xl shadow-2xl"
                 src="https://plus.unsplash.com/premium_photo-1675278298930-5aaa220956b3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Futuristic cityscape"
               />
@@ -118,10 +125,23 @@ export default function MissionVisionPage() {
               <h2 className="text-3xl font-poppins dark:text-gray-50 mb-6">
                 Our Vision
               </h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-6">
-                To redefine urban living through innovative design, technology, and community-centric development that sets new standards for the industry.
+              <p className="text-xl text-gray-600 text-justify dark:text-gray-300">
+                Embracing a Greener Future
+                We are living in a time where cities must act decisively to expand their green spaces. As urban areas continue to grow, the limitations of traditional 20th-century infrastructure are becoming increasingly evident.
               </p>
-              <div className="space-y-6">
+              <p className="text-xl text-gray-600 text-justify dark:text-gray-300 py-3">
+                Reimagining Public Spaces
+                To enhance the vitality and livability of cities, the integration of plantations and the creation of innovative public spaces are no longer optional—they are essential. These spaces foster community well-being while restoring balance with nature.
+              </p>
+              <p className="text-xl text-gray-600 text-justify dark:text-gray-300 pb-2">
+                Pioneering Vertical Landscapes
+                The global rise of vertical landscapes reflects this urgent need for change. By embracing such innovations, cities can redefine their skylines while bringing nature closer to everyday life.
+              </p>
+              <p className="text-xl text-gray-600 text-justify dark:text-gray-300 pb-1">
+                Our Commitment to Excellence
+                Our vision is to be recognized as a respected architectural firm, committed to delivering high-quality designs and services. With honesty, integrity, and sustainability at our core, we strive to create spaces that inspire, enrich, and endure.
+              </p>
+              {/* <div className="space-y-6 pt-6">
                 <div className="flex items-start">
                   <div className="flex-shrink-0 mt-1 text-[#7AA859]">
                     <GiEarthAmerica className="h-5 w-5" />
@@ -155,7 +175,7 @@ export default function MissionVisionPage() {
                     </p>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
