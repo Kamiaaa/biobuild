@@ -42,9 +42,10 @@ export default function Slider() {
     if (isTransitioning) return;
     setIsTransitioning(true);
     setTimeout(() => {
-      setCurrent((prev) => direction === 'next'
-        ? (prev + 1) % length
-        : (prev - 1 + length) % length
+      setCurrent((prev) =>
+        direction === 'next'
+          ? (prev + 1) % length
+          : (prev - 1 + length) % length
       );
       setIsTransitioning(false);
     }, 10000);
@@ -58,10 +59,11 @@ export default function Slider() {
         {images.map((src, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-all duration-[5000ms] ease-in-out ${index === current
+            className={`absolute inset-0 transition-all duration-[5000ms] ease-in-out ${
+              index === current
                 ? 'opacity-100 z-10 scale-100'
                 : 'opacity-0 z-0 scale-150'
-              }`}
+            }`}
           >
             <Image
               src={src}
@@ -73,32 +75,37 @@ export default function Slider() {
           </div>
         ))}
 
-        {/* Arrows */}
-        {/* <button
-          onClick={() => handleNavigation('prev')}
-          className={`absolute top-1/2 left-4 transform -translate-y-1/2 text-white text-3xl z-40 hover:scale-110 transition-transform ${isTransitioning ? 'opacity-50 cursor-not-allowed' : ''
+        {/* Arrows (Desktop Only) */}
+        <div className="hidden md:block">
+          <button
+            onClick={() => handleNavigation('prev')}
+            className={`absolute top-1/2 left-4 transform -translate-y-1/2 text-white text-3xl z-40 hover:scale-110 transition-transform ${
+              isTransitioning ? 'opacity-50 cursor-not-allowed' : ''
             }`}
-          disabled={isTransitioning}
-        >
-          <FaCircleArrowLeft />
-        </button>
-        <button
-          onClick={() => handleNavigation('next')}
-          className={`absolute top-1/2 right-4 transform -translate-y-1/2 text-white text-3xl z-40 hover:scale-110 transition-transform ${isTransitioning ? 'opacity-50 cursor-not-allowed' : ''
+            disabled={isTransitioning}
+          >
+            <FaCircleArrowLeft />
+          </button>
+          <button
+            onClick={() => handleNavigation('next')}
+            className={`absolute top-1/2 right-4 transform -translate-y-1/2 text-white text-3xl z-40 hover:scale-110 transition-transform ${
+              isTransitioning ? 'opacity-50 cursor-not-allowed' : ''
             }`}
-          disabled={isTransitioning}
-        >
-          <FaCircleArrowRight />
-        </button> */}
+            disabled={isTransitioning}
+          >
+            <FaCircleArrowRight />
+          </button>
+        </div>
 
-        {/* Thumbnails */}
-        <div className="absolute hidden md:bottom-44 md:right-4 md:z-50 md:flex md:gap-3 md:bg-black/40 md:px-4 md:py-2 md:rounded-md">
+        {/* Thumbnails (Desktop Only) */}
+        <div className="hidden md:flex absolute bottom-44 right-4 z-50 gap-3 bg-black/40 px-4 py-2 rounded-md">
           {images.map((src, index) => (
             <div
               key={index}
               onClick={() => setCurrent(index)}
-              className={`cursor-pointer rounded-md border-5 transition duration-300 ${current === index ? 'border-[#fff]' : 'border-transparent'
-                }`}
+              className={`cursor-pointer rounded-md border-5 transition duration-300 ${
+                current === index ? 'border-[#fff]' : 'border-transparent'
+              }`}
             >
               <Image
                 src={src}
@@ -111,13 +118,11 @@ export default function Slider() {
           ))}
         </div>
 
-        {/* Icons Bar */}
-        <div className="absolute hidden md:bottom-0 md:w-full md:h-40 md:z-50">
-          {/* Desktop version */}
-          <div className="hidden md:flex absolute inset-0 bg-black/40 items-center px-10 z-50">
+        {/* Icons Bar (Desktop Only) */}
+        <div className="hidden md:flex absolute bottom-0 w-full h-40 z-50">
+          <div className="absolute inset-0 bg-black/40 flex items-center px-10 z-50">
             <div className="text-white text-3xl font-poppins w-1/3">
-              {/* Contact Number (Visible on md and up) */}
-              <div className="hidden md:flex items-center gap-2 text-white font-semibold text-xl">
+              <div className="flex items-center gap-2 text-white font-semibold text-xl">
                 <FiPhone className="text-xl" />
                 <span>+880 17 51 51 12 12</span>
               </div>
@@ -142,30 +147,12 @@ export default function Slider() {
               ))}
             </div>
           </div>
+        </div>
 
-          {/* Mobile version */}
-          <div className="flex md:hidden flex-col items-center justify-center absolute inset-0 bg-black/40 backdrop-blur-md px-4 py-3 gap-3 z-50">
-            <div className="text-white text-lg font-semibold text-center">
-              +880 17 51 51 12 12
-            </div>
-            <div className="flex gap-8">
-              {iconLinks.map((icon, idx) => (
-                <Link
-                  key={idx}
-                  href={icon.href}
-                  className="flex flex-col items-center text-white group"
-                >
-                  <Image
-                    src={icon.src}
-                    alt={icon.alt}
-                    width={35}
-                    height={35}
-                    className="transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <span className="mt-1 text-xs">{icon.label}</span>
-                </Link>
-              ))}
-            </div>
+        {/* Contact Number (Mobile Only) */}
+        <div className="flex md:hidden absolute bottom-5 inset-x-0 items-center justify-center z-50">
+          <div className="bg-black/40 backdrop-blur-md px-6 py-2 rounded-md text-white text-lg font-semibold text-center">
+            +880 17 51 51 12 12
           </div>
         </div>
       </div>
