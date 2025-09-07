@@ -1,6 +1,7 @@
 import Slider from "./components/Carousel";
 import ClientLogoSlider from "./components/ClientLogoSlider";
 import FlipSlider from "./components/FlipSlider";
+import NewsAndEventsPage from "./components/NewsEvents";
 import PrimeLocationsPage from "./components/PrimeLocations";
 import ViewProjectsPage from "./components/ProjectGallery";
 import PromotionalBanner from "./components/PromotionalBanner";
@@ -13,6 +14,7 @@ export default function Home() {
     <ViewProjectsPage/>
     <PromotionalBanner/>
     <ViewBlogs/>
+    <NewsAndEventsPage/>
     <PrimeLocationsPage/>
     <FlipSlider/>
     <ClientLogoSlider/>
