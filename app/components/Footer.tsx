@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 
 const Footer: React.FC = () => {
   return (
@@ -121,10 +121,9 @@ const Footer: React.FC = () => {
               <h3 className="text-gray-100 text-lg font-medium mb-4">Follow Us</h3>
               <div className="flex space-x-3">
                 {[
-                  { icon: <FaFacebookF size={18} />, href: "https://facebook.com/biobuild" },
-                  { icon: <FaTwitter size={18} />, href: "https://twitter.com/biobuild" },
-                  { icon: <FaInstagram size={18} />, href: "https://instagram.com/biobuild" },
-                  { icon: <FaLinkedinIn size={18} />, href: "https://linkedin.com/company/biobuild" },
+                  { icon: <FaFacebookF size={18} />, href: "https://www.facebook.com/Biobuildbd/" },
+                  { icon: <FaInstagram size={18} />, href: "https://www.instagram.com/biobuildbd/" },
+                  { icon: <FaYoutube size={18} />, href: "https://www.youtube.com/@biobuildbd?sub_confirmation=1" },
                 ].map((social, index) => (
                   <Link key={index} href={social.href} target="_blank" rel="noopener noreferrer">
                     <span className="bg-gray-800 hover:bg-emerald-600 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
