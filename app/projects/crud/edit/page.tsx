@@ -13,7 +13,7 @@ interface Project {
   hoverTitle: string;
   hoverText: string;
   location: string;
-  status: 'ongoing' | 'completed' | 'upcoming';
+  status: 'ongoing' | 'completed' | 'upcoming' | 'soldout';
   description: string;
   size: string;
   units: number;
@@ -88,7 +88,7 @@ const EditProjectContent = () => {
   };
 
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setForm(prev => ({ ...prev, status: e.target.value as 'ongoing' | 'completed' | 'upcoming' }));
+    setForm(prev => ({ ...prev, status: e.target.value as 'ongoing' | 'completed' | 'upcoming' | 'soldout' }));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -318,6 +318,7 @@ const EditProjectContent = () => {
                   <option value="ongoing">Ongoing</option>
                   <option value="completed">Completed</option>
                   <option value="upcoming">Upcoming</option>
+                  <option value="soldout">Soldout</option>
                 </select>
               </div>
 
