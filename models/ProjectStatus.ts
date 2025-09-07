@@ -4,7 +4,7 @@ export interface IProjectStatus extends Document {
   image: string;
   title: string;
   location: string;
-  status: 'ongoing' | 'completed' | 'upcoming';
+  status: 'ongoing' | 'completed' | 'upcoming' | 'soldout';
 }
 
 const ProjectStatusSchema = new Schema<IProjectStatus>(
@@ -14,7 +14,7 @@ const ProjectStatusSchema = new Schema<IProjectStatus>(
     location: { type: String, required: true, trim: true },
     status: {
       type: String,
-      enum: ['ongoing', 'completed', 'upcoming'],
+      enum: ['ongoing', 'completed', 'upcoming', 'soldout'],
       required: true,
     },
   },

@@ -6,7 +6,7 @@ export interface IProject extends Document {
   hoverTitle?: string; // optional
   hoverText?: string; // optional
   location: string;
-  status: 'ongoing' | 'completed' | 'upcoming';
+  status: 'ongoing' | 'completed' | 'upcoming' | 'soldout';
   description?: string; // optional
   size: string;
   units: number;
@@ -23,7 +23,7 @@ const ProjectSchema = new Schema<IProject>(
     location: { type: String, required: true },
     status: {
       type: String,
-      enum: ['ongoing', 'completed', 'upcoming'],
+      enum: ['ongoing', 'completed', 'upcoming', 'soldout'],
       required: true,
     },
     description: { type: String }, // ✅ no longer required

@@ -15,7 +15,7 @@ const AddProjectPage = () => {
   const [hoverTitle, setHoverTitle] = useState('');
   const [hoverText, setHoverText] = useState('');
   const [location, setLocation] = useState('');
-  const [status, setStatus] = useState<'ongoing' | 'completed' | 'upcoming'>('ongoing');
+  const [status, setStatus] = useState<'ongoing' | 'completed' | 'upcoming' |'soldout'>('ongoing');
   const [description, setDescription] = useState('');
   const [size, setSize] = useState('');
   const [units, setUnits] = useState<number>(0);
@@ -190,13 +190,14 @@ useEffect(() => {
                 <select
                   id="status"
                   value={status}
-                  onChange={(e) => setStatus(e.target.value as 'ongoing' | 'completed' | 'upcoming')}
+                  onChange={(e) => setStatus(e.target.value as 'ongoing' | 'completed' | 'upcoming' | 'soldout')}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 dark:text-white"
                   required
                 >
                   <option value="ongoing">Ongoing</option>
                   <option value="completed">Completed</option>
                   <option value="upcoming">Upcoming</option>
+                  <option value="soldout">Soldout</option>
                 </select>
               </div>
 

@@ -11,7 +11,7 @@ interface Project {
   image: string;
   hoverTitle: string;
   hoverText: string;
-  status: 'ongoing' | 'completed' | 'upcoming';
+  status: 'ongoing' | 'completed' | 'upcoming' | 'soldout';
 }
 
 const ViewProjectsPage: React.FC = () => {
@@ -186,13 +186,14 @@ const ViewProjectsPage: React.FC = () => {
           {[...projects, ...projects].map((project, index) => (
             <div key={project._id + '-' + index} className="relative group w-72 flex-shrink-0">
               <div
-                className={`absolute top-2 right-2 z-10 text-xs font-semibold px-3 py-1 rounded-full shadow capitalize ${
-                  project.status === 'completed'
+                className={`absolute top-2 right-2 z-10 text-xs font-semibold px-3 py-1 rounded-full shadow capitalize ${project.status === 'completed'
                     ? 'bg-green-100 text-green-800'
                     : project.status === 'ongoing'
                       ? 'bg-yellow-100 text-yellow-800'
-                      : 'bg-blue-100 text-blue-800'
-                }`}
+                      : project.status === 'upcoming'
+                        ? 'bg-blue-100 text-blue-800'
+                        : 'bg-red-100 text-red-800' // soldout
+                  }`}
               >
                 {project.status}
               </div>
