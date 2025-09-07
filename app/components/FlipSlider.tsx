@@ -15,25 +15,75 @@ const slides: Slide[] = [
   { id: 1, image: "/img/bro/page-01.png" },
   { id: 2, image: "/img/bro/page-02.png" },
   { id: 3, image: "/img/bro/page-03.png" },
+  { id: 4, image: "/img/bro/page-04.png" },
+  { id: 5, image: "/img/bro/page-05.png" },
+  { id: 6, image: "/img/bro/page-06.png" },
+  { id: 1, image: "/img/bro/page-07.png" },
+  { id: 2, image: "/img/bro/page-08.png" },
+  { id: 3, image: "/img/bro/page-09.png" },
+  { id: 4, image: "/img/bro/page-10.png" },
+  { id: 5, image: "/img/bro/page-11.png" },
+  { id: 6, image: "/img/bro/page-12.png" },
+  { id: 1, image: "/img/bro/page-13.png" },
+  { id: 2, image: "/img/bro/page-14.png" },
+  { id: 3, image: "/img/bro/page-15.png" },
+  { id: 4, image: "/img/bro/page-16.png" },
+  { id: 5, image: "/img/bro/page-17.png" },
+  { id: 6, image: "/img/bro/page-18.png" },
+  { id: 1, image: "/img/bro/page-19.png" },
+  { id: 2, image: "/img/bro/page-20.png" },
+  { id: 3, image: "/img/bro/page-21.png" },
+  { id: 4, image: "/img/bro/page-22.png" },
+  { id: 5, image: "/img/bro/page-23.png" },
+  { id: 6, image: "/img/bro/page-24.png" },
+  { id: 2, image: "/img/bro/page-25.png" },
+  { id: 3, image: "/img/bro/page-26.png" },
+  { id: 4, image: "/img/bro/page-27.png" },
+  { id: 5, image: "/img/bro/page-28.png" },
+  { id: 6, image: "/img/bro/page-29.png" },
+  { id: 1, image: "/img/bro/page-30.png" },
+  { id: 2, image: "/img/bro/page-31.png" },
+  { id: 3, image: "/img/bro/page-32.png" },
+  { id: 4, image: "/img/bro/page-33.png" },
+  { id: 5, image: "/img/bro/page-34.png" },
 ];
 
 export default function FlipSlider() {
-  const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState<"next" | "prev">("next");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isFlipping, setIsFlipping] = useState(false);
+  const [flipDirection, setFlipDirection] = useState<"left" | "right">("right");
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  
+  const flipDuration = 0.8;
 
-  const nextSlide = () => {
-    setDirection("next");
-    setIndex((prev) => (prev + 1) % slides.length);
+  // Calculate left and right page indices
+  const leftPageIndex = currentIndex;
+  const rightPageIndex = currentIndex + 1;
+
+  const nextPage = () => {
+    if (isFlipping || rightPageIndex >= slides.length - 1) return;
+    
+    setIsFlipping(true);
+    setFlipDirection("right");
+    setTimeout(() => {
+      setCurrentIndex(prev => prev + 2);
+      setIsFlipping(false);
+    }, flipDuration * 1000);
   };
 
-  const prevSlide = () => {
-    setDirection("prev");
-    setIndex((prev) => (prev - 1 + slides.length) % slides.length);
+  const prevPage = () => {
+    if (isFlipping || currentIndex === 0) return;
+    
+    setIsFlipping(true);
+    setFlipDirection("left");
+    setTimeout(() => {
+      setCurrentIndex(prev => prev - 2);
+      setIsFlipping(false);
+    }, flipDuration * 1000);
   };
 
   const handleShowForm = () => setShowForm(true);
@@ -73,8 +123,30 @@ export default function FlipSlider() {
     }
   };
 
+  // Variants for the flipping page animation
+  const flipVariants = {
+    initial: (flipDirection: "left" | "right") => ({
+      rotateY: flipDirection === "right" ? 0 : -180,
+      zIndex: 30,
+    }),
+    animate: (flipDirection: "left" | "right") => ({
+      rotateY: flipDirection === "right" ? -90 : 90,
+      zIndex: 30,
+    }),
+    exit: {
+      rotateY: -180,
+      zIndex: 10,
+    }
+  };
+
+  // Define transition separately
+  const flipTransition = {
+    duration: flipDuration / 2,
+    ease: [0.65, 0.05, 0.36, 1] as [number, number, number, number] // Custom cubic bezier for realistic flip
+  };
+
   return (
-    <div className="relative w-full max-w-3xl mx-auto p-4 text-center font-sans">
+    <div className="relative w-full max-w-5xl mx-auto p-4 text-center font-sans">
       {/* Title Section */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -86,57 +158,142 @@ export default function FlipSlider() {
           Get Your <span className="text-[#7AA859]">BIOBUILD</span> Brochure
         </h1>
         <p className="mt-2 text-gray-600 max-w-2xl mx-auto text-base leading-relaxed">
-          Share your details and we’ll contact you shortly.
+          Flip through our brochure and request your copy today.
         </p>
       </motion.div>
 
-      {/* Slider */}
-      <div className="relative bg-gradient-to-br from-gray-50 to-white p-6 rounded-2xl shadow-lg mb-6">
-        <div className="overflow-hidden relative h-[490px] perspective-1000">
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
-              key={slides[index].id}
-              custom={direction}
-              initial={{ rotateY: direction === "next" ? 90 : -90, opacity: 0, scale: 0.9 }}
-              animate={{ rotateY: 0, opacity: 1, scale: 1 }}
-              exit={{ rotateY: direction === "next" ? -90 : 90, opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.7, ease: "easeInOut" }}
-              className="absolute inset-0 bg-white rounded-xl shadow-md flex flex-col justify-center items-center backface-hidden"
-            >
-              <div className="relative w-full h-full">
+      {/* 3D Book Container */}
+      <div className="relative w-full max-w-4xl mx-auto mb-8">
+        {/* Book Shadow */}
+        <div className="absolute -bottom-4 left-5 right-5 h-4 bg-gray-200 blur-md rounded-xl opacity-70"></div>
+        
+        {/* Book */}
+        <div className="relative w-full h-[490px] perspective-1200 flex justify-center items-center">
+          {/* Left Page (static) */}
+          <div className="absolute left-0 w-1/2 h-full origin-right transition-transform duration-500 z-20">
+            <div className="absolute top-0 left-0 w-full h-full bg-white border-r border-gray-300 rounded-l-lg shadow-lg overflow-hidden">
+              {leftPageIndex < slides.length ? (
                 <Image
-                  src={slides[index].image}
-                  alt="Brochure preview"
+                  src={slides[leftPageIndex].image}
+                  alt={`Brochure page ${leftPageIndex + 1}`}
                   fill
-                  className="rounded-lg object-contain p-3"
+                  className="object-contain p-4"
                 />
-              </div>
-            </motion.div>
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-gray-100 to-white flex flex-col justify-center items-center p-8">
+                  <h3 className="text-xl font-semibold mb-4">Contact Us</h3>
+                  <p className="mb-4">For more information about our services</p>
+                  <button 
+                    onClick={handleShowForm}
+                    className="px-4 py-2 bg-[#7AA859] text-white rounded-lg hover:bg-green-700 transition-colors"
+                  >
+                    Request Info
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Right Page (static) */}
+          <div className="absolute right-0 w-1/2 h-full origin-left transition-transform duration-500 z-10">
+            <div className="absolute top-0 right-0 w-full h-full bg-white border-l border-gray-300 rounded-r-lg shadow-lg overflow-hidden">
+              {rightPageIndex < slides.length ? (
+                <Image
+                  src={slides[rightPageIndex].image}
+                  alt={`Brochure page ${rightPageIndex + 1}`}
+                  fill
+                  className="object-contain p-4"
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-gray-100 to-white flex flex-col justify-center items-center p-8">
+                  <h3 className="text-xl font-semibold mb-4">Thank You</h3>
+                  <p className="mb-4">We hope you enjoyed our brochure</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Flipping Page (animated) - Right Flip */}
+          <AnimatePresence custom={flipDirection}>
+            {isFlipping && flipDirection === "right" && (
+              <motion.div
+                key={`flip-right-${currentIndex}`}
+                custom={flipDirection}
+                variants={flipVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={flipTransition}
+                className="absolute right-0 w-1/2 h-full origin-left transform-style-3d"
+              >
+                <div className="absolute top-0 right-0 w-full h-full bg-white border-l border-gray-300 rounded-r-lg shadow-xl overflow-hidden">
+                  <Image
+                    src={slides[rightPageIndex].image}
+                    alt={`Brochure page ${rightPageIndex + 1}`}
+                    fill
+                    className="object-contain p-4"
+                  />
+                </div>
+              </motion.div>
+            )}
           </AnimatePresence>
+
+          {/* Flipping Page (animated) - Left Flip */}
+          <AnimatePresence custom={flipDirection}>
+            {isFlipping && flipDirection === "left" && (
+              <motion.div
+                key={`flip-left-${currentIndex}`}
+                custom={flipDirection}
+                variants={flipVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={flipTransition}
+                className="absolute left-0 w-1/2 h-full origin-right transform-style-3d"
+              >
+                <div className="absolute top-0 left-0 w-full h-full bg-white border-r border-gray-300 rounded-l-lg shadow-xl overflow-hidden">
+                  <Image
+                    src={slides[leftPageIndex].image}
+                    alt={`Brochure page ${leftPageIndex + 1}`}
+                    fill
+                    className="object-contain p-4"
+                  />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          
+          {/* Book Spine */}
+          <div className="absolute left-1/2 top-0 bottom-0 w-8 bg-gradient-to-r from-gray-700 to-gray-800 -translate-x-1/2 -z-10"></div>
         </div>
 
         {/* Page Indicator */}
-        <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-1">
-          {slides.map((_, i) => (
-            <div
-              key={i}
-              className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${i === index ? "bg-[#7AA859] w-4" : "bg-gray-300"}`}
-            />
-          ))}
+        <div className="mt-6 flex justify-center items-center space-x-2">
+          <span className="text-sm text-gray-600">
+            Pages {leftPageIndex + 1}-{Math.min(rightPageIndex + 1, slides.length)} of {slides.length}
+          </span>
         </div>
 
         {/* Controls */}
-        <div className="flex justify-between items-center absolute top-1/2 left-0 right-0 transform -translate-y-1/2 px-2">
-          <button onClick={prevSlide} className="p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-all duration-300 hover:shadow-lg group">
-            <IoMdArrowBack size={20} className="text-gray-700 group-hover:text-emerald-600" />
+        <div className="flex justify-between items-center absolute top-1/2 left-0 right-0 transform -translate-y-1/2 px-2 z-30">
+          <button 
+            onClick={prevPage} 
+            disabled={currentIndex === 0 || isFlipping}
+            className={`p-3 bg-white rounded-full shadow-md transition-all duration-300 hover:shadow-lg group ${currentIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'}`}
+          >
+            <IoMdArrowBack size={24} className="text-gray-700 group-hover:text-emerald-600" />
           </button>
-          <button onClick={nextSlide} className="p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-all duration-300 hover:shadow-lg group">
-            <IoMdArrowForward size={20} className="text-gray-700 group-hover:text-emerald-600" />
+          <button 
+            onClick={nextPage} 
+            disabled={rightPageIndex >= slides.length - 1 || isFlipping}
+            className={`p-3 bg-white rounded-full shadow-md transition-all duration-300 hover:shadow-lg group ${rightPageIndex >= slides.length - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50'}`}
+          >
+            <IoMdArrowForward size={24} className="text-gray-700 group-hover:text-emerald-600" />
           </button>
         </div>
       </div>
 
-      {/* Show Form */}
+      {/* Request Brochure Button */}
       <AnimatePresence mode="wait">
         {!showForm ? (
           <motion.button
@@ -165,7 +322,7 @@ export default function FlipSlider() {
             
             <h2 className="text-xl font-semibold text-gray-800 mb-2">Request Brochure</h2>
             <p className="mb-4 text-gray-600 text-sm">
-              Share your details and we’ll contact you shortly.
+              Share your details and we'll send you our complete brochure.
             </p>
             
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -205,6 +362,18 @@ export default function FlipSlider() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <style jsx global>{`
+        .perspective-1200 {
+          perspective: 1200px;
+        }
+        .transform-style-3d {
+          transform-style: preserve-3d;
+        }
+        .backface-hidden {
+          backface-visibility: hidden;
+        }
+      `}</style>
     </div>
   );
 }
