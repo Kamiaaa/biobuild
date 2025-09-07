@@ -53,7 +53,7 @@ export default function Slider() {
   return (
     <div className="w-full mt-16 relative">
       {/* Main Image Slider */}
-      <div className="relative w-full h-[90vh] overflow-hidden shadow-md">
+      <div className="relative w-full h-48 md:w-full md:h-[90vh] overflow-hidden shadow-md">
         {/* Slides with zoom effect */}
         {images.map((src, index) => (
           <div
@@ -74,7 +74,7 @@ export default function Slider() {
         ))}
 
         {/* Arrows */}
-        <button
+        {/* <button
           onClick={() => handleNavigation('prev')}
           className={`absolute top-1/2 left-4 transform -translate-y-1/2 text-white text-3xl z-40 hover:scale-110 transition-transform ${isTransitioning ? 'opacity-50 cursor-not-allowed' : ''
             }`}
@@ -89,10 +89,10 @@ export default function Slider() {
           disabled={isTransitioning}
         >
           <FaCircleArrowRight />
-        </button>
+        </button> */}
 
         {/* Thumbnails */}
-        <div className="absolute bottom-44 right-4 z-50 flex gap-3 bg-black/40 px-4 py-2 rounded-md">
+        <div className="absolute hidden md:bottom-44 md:right-4 md:z-50 md:flex md:gap-3 md:bg-black/40 md:px-4 md:py-2 md:rounded-md">
           {images.map((src, index) => (
             <div
               key={index}
@@ -112,7 +112,7 @@ export default function Slider() {
         </div>
 
         {/* Icons Bar */}
-        <div className="absolute bottom-0 w-full h-40 z-50">
+        <div className="absolute hidden md:bottom-0 md:w-full md:h-40 md:z-50">
           {/* Desktop version */}
           <div className="hidden md:flex absolute inset-0 bg-black/40 items-center px-10 z-50">
             <div className="text-white text-3xl font-poppins w-1/3">
