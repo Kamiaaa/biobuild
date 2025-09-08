@@ -16,7 +16,7 @@ interface Director {
 export default function BoardOfDirectorsPage() {
   const directors: Director[] = [
     {
-      name: "Architect Md. Mamunur Rahman (Munim)",
+      name: "Architect Md. Mamunur Rahman",
       title: "MANAGING DIRECTOR",
       image: "/img/bod/md.jpg",
       bio: "Our managing director Architect Md Mamunur Rahman (Munim) plays a pivotal role as an organizer at BIOBUILD Development Ltd, bringing visionary leadership to our projects.",
@@ -37,7 +37,7 @@ export default function BoardOfDirectorsPage() {
       name: "Md. Sujal Ahmed Talukder",
       title: "DIRECTOR & CEO",
       image: "/img/bod/ceo.jpg",
-      bio: "Our journey begins with a shared vision—to create innovative, eco-friendly spaces that redefine urban living while contributing to a sustainable future.",
+      bio: "Our journey begins with a shared vision—to create innovative, eco-friendly spaces that redefine urban living while contributing to a sustainable future. As an ex cadet and member of Cadet College Club ltd,",
       link: "/ceo",
       linkedin: "#",
       twitter: "#"

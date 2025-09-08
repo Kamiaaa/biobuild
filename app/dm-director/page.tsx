@@ -1,6 +1,3 @@
-import { FaLinkedin, FaTwitter, FaEnvelope, FaBriefcase } from 'react-icons/fa';
-import { IoMdPhonePortrait } from 'react-icons/io';
-import { MdLocationOn } from 'react-icons/md';
 import Link from 'next/link';
 
 export default function DptManagingDirectorPage() {
