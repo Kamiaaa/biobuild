@@ -100,7 +100,7 @@ export default function BoardOfDirectorsPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-3 lg:grid-cols-3 gap-8">
             {directors.map((director, index) => (
               <div key={index} className="bg-white dark:bg-gray-900 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                 <img
