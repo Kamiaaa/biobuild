@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-gray-800 opacity-90"></div>
       </div>
 
-      <div className="relative z-10 grid grid-cols-1 md:grid-cols-4 gap-10 max-w-7xl mx-auto">
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-10 max-w-7xl mx-auto">
         {/* Company Info */}
         <div className="space-y-4">
           <Image
@@ -46,7 +46,7 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Services */}
-        <div>
+        {/* <div>
           <h3 className="text-gray-100 text-xl font-semibold mb-6 pb-2 border-b border-gray-700">Our Projects</h3>
           <ul className="space-y-3">
             {[
@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
 
         {/* Quick Links */}
         <div>

@@ -107,7 +107,8 @@ const ContactPage = () => {
                   <FaMapMarkerAlt className="h-5 w-5 text-blue-200 mt-1" />
                   <div className="ml-4">
                     <h3 className="text-sm font-medium text-blue-100">Office</h3>
-                    <p>House: 05, Road 20, Sector 13, Uttara, Dhaka-1230</p>
+                    <a href='https://maps.app.goo.gl/ZJ7UaMR8i1KNWVPM7' target='_blank'><p>Head Office: House: 05, Road 20, Sector 13, Uttara, Dhaka-1230</p></a>
+                    <a href='https://maps.app.goo.gl/i2JDPi3FHYFwsf3T8' target='_blank'><p className='pt-2'>Jolshiri Abashon: House: 06, Road: 503A, Sector: 16, Jolshiri Abashon</p></a>
                   </div>
                 </div>
               </div>
