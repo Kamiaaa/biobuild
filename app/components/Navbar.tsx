@@ -103,9 +103,16 @@ export default function Navbar() {
             }`}
         >
           <div className="px-8 py-56 space-y-4">
-            {/* Home link with close button */}
-            {/* Home link with close button */}
-            <div className="flex items-center justify-between">
+            {/* Close button positioned at top right */}
+            <div className="absolute top-24 right-4">
+              <button
+                onClick={() => setIsOpen(false)}
+                className=""
+              >
+                <RxCrossCircled className="text-gray-50 hover:text-red-500 font-bold text-4xl transition" />
+              </button>
+            </div>
+            <div className="flex items-center justify-between pt-18">
               <Link
                 href="/"
                 onClick={() => setIsOpen(false)}
@@ -113,12 +120,7 @@ export default function Navbar() {
               >
                 HOME
               </Link>
-              <button
-                onClick={() => setIsOpen(false)}
-                className=""
-              >
-                <RxCrossCircled className="text-gray-50 hover:text-red-500 font-bold text-4xl transition" />
-              </button>
+
             </div>
 
 
@@ -270,8 +272,8 @@ export default function Navbar() {
         <div
           ref={menuRef}
           className={`fixed top-16 left-0 w-full bg-white z-40 shadow-lg transform transition-transform duration-500 ease-in-out ${isOpen
-              ? "translate-y-0 opacity-100 pointer-events-auto"
-              : "-translate-y-10 opacity-0 pointer-events-none"
+            ? "translate-y-0 opacity-100 pointer-events-auto"
+            : "-translate-y-10 opacity-0 pointer-events-none"
             }`}
         >
           <div className="px-4 py-4 space-y-4">
