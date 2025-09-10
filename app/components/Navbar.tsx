@@ -112,7 +112,7 @@ export default function Navbar() {
                 <RxCrossCircled className="text-gray-50 hover:text-red-500 font-bold text-4xl transition" />
               </button>
             </div>
-            <div className="flex items-center justify-between pt-18">
+            <div className="flex items-center justify-between">
               <Link
                 href="/"
                 onClick={() => setIsOpen(false)}
