@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { RxCrossCircled } from "react-icons/rx";
 import Image from "next/image";
 
 export default function Navbar() {
@@ -101,7 +102,7 @@ export default function Navbar() {
             : "-translate-y-10 opacity-0 pointer-events-none"
             }`}
         >
-          <div className="px-8 py-10 space-y-4 pt-48">
+          <div className="px-8 py-72 space-y-4">
             {/* Home link with close button */}
             {/* Home link with close button */}
             <div className="flex items-center justify-between">
@@ -114,9 +115,9 @@ export default function Navbar() {
               </Link>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-gray-50 hover:text-red-500 font-bold text-2xl w-10 h-10 flex items-center justify-center border-3 border-gray-50 rounded-full hover:border-red-500 transition"
+                className=""
               >
-                &times;
+                <RxCrossCircled className="text-gray-50 hover:text-red-500 font-bold text-4xl transition" />
               </button>
             </div>
 
@@ -265,152 +266,151 @@ export default function Navbar() {
       )}
 
       {/* Mobile Menu */}
-{!isDesktop && (
-  <div
-    ref={menuRef}
-    className={`fixed top-16 left-0 w-full bg-white z-40 shadow-lg transform transition-transform duration-500 ease-in-out ${
-      isOpen
-        ? "translate-y-0 opacity-100 pointer-events-auto"
-        : "-translate-y-10 opacity-0 pointer-events-none"
-    }`}
-  >
-    <div className="px-4 py-4 space-y-4">
-      {/* Close button */}
-      <div className="flex justify-end">
-        <button
-          onClick={() => setIsOpen(false)}
-          className="text-gray-800 hover:text-red-500 font-bold text-2xl w-10 h-10 flex items-center justify-center border border-gray-300 rounded-full hover:border-red-500 transition"
+      {!isDesktop && (
+        <div
+          ref={menuRef}
+          className={`fixed top-16 left-0 w-full bg-white z-40 shadow-lg transform transition-transform duration-500 ease-in-out ${isOpen
+              ? "translate-y-0 opacity-100 pointer-events-auto"
+              : "-translate-y-10 opacity-0 pointer-events-none"
+            }`}
         >
-          &times;
-        </button>
-      </div>
+          <div className="px-4 py-4 space-y-4">
+            {/* Close button */}
+            <div className="flex justify-end">
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-gray-800 hover:text-red-500 font-bold text-2xl w-10 h-10 flex items-center justify-center border border-gray-300 rounded-full hover:border-red-500 transition"
+              >
+                &times;
+              </button>
+            </div>
 
-      <Link
-        href="/"
-        onClick={() => setIsOpen(false)}
-        className="block text-lg font-medium text-gray-800 hover:text-[#7AA859]"
-      >
-        HOME
-      </Link>
+            <Link
+              href="/"
+              onClick={() => setIsOpen(false)}
+              className="block text-lg font-medium text-gray-800 hover:text-[#7AA859]"
+            >
+              HOME
+            </Link>
 
-      {/* About */}
-      <div className="relative">
-        <button
-          onClick={() => toggleSubmenu("about")}
-          className="flex items-center gap-1 text-lg font-medium text-gray-800 hover:text-[#7AA859]"
-        >
-          ABOUT US{" "}
-          {openSubmenu === "about" ? (
-            <FaChevronUp className="text-sm" />
-          ) : (
-            <FaChevronDown className="text-sm" />
-          )}
-        </button>
-        {openSubmenu === "about" && (
-          <div className="mt-2 ml-4 space-y-2">
+            {/* About */}
+            <div className="relative">
+              <button
+                onClick={() => toggleSubmenu("about")}
+                className="flex items-center gap-1 text-lg font-medium text-gray-800 hover:text-[#7AA859]"
+              >
+                ABOUT US{" "}
+                {openSubmenu === "about" ? (
+                  <FaChevronUp className="text-sm" />
+                ) : (
+                  <FaChevronDown className="text-sm" />
+                )}
+              </button>
+              {openSubmenu === "about" && (
+                <div className="mt-2 ml-4 space-y-2">
+                  <Link
+                    href="/story"
+                    onClick={() => setIsOpen(false)}
+                    className="block text-lg text-gray-700 hover:text-[#7AA859]"
+                  >
+                    Our Story
+                  </Link>
+                  <Link
+                    href="/bod"
+                    onClick={() => setIsOpen(false)}
+                    className="block text-lg text-gray-700 hover:text-[#7AA859]"
+                  >
+                    Board of Directors
+                  </Link>
+                  <Link
+                    href="/management-team"
+                    onClick={() => setIsOpen(false)}
+                    className="block text-lg text-gray-700 hover:text-[#7AA859]"
+                  >
+                    Management Team
+                  </Link>
+                  <Link
+                    href="/mission-vision"
+                    onClick={() => setIsOpen(false)}
+                    className="block text-lg text-gray-700 hover:text-[#7AA859]"
+                  >
+                    Mission and Vision
+                  </Link>
+                  <Link
+                    href="/clients"
+                    onClick={() => setIsOpen(false)}
+                    className="block text-lg text-gray-700 hover:text-[#7AA859]"
+                  >
+                    Our Clients
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Projects */}
+            <div className="relative">
+              <button
+                onClick={() => toggleSubmenu("projects")}
+                className="flex items-center gap-1 text-lg font-medium text-gray-800 hover:text-[#7AA859]"
+              >
+                PROJECTS{" "}
+                {openSubmenu === "projects" ? (
+                  <FaChevronUp className="text-sm" />
+                ) : (
+                  <FaChevronDown className="text-sm" />
+                )}
+              </button>
+              {openSubmenu === "projects" && (
+                <div className="mt-2 ml-4 space-y-2">
+                  <Link
+                    href="/project-status/ongoing"
+                    onClick={() => setIsOpen(false)}
+                    className="block text-lg text-gray-700 hover:text-[#7AA859]"
+                  >
+                    Ongoing Project
+                  </Link>
+                  <Link
+                    href="/project-status/completed"
+                    onClick={() => setIsOpen(false)}
+                    className="block text-lg text-gray-700 hover:text-[#7AA859]"
+                  >
+                    Completed Project
+                  </Link>
+                  <Link
+                    href="/project-status/upcoming"
+                    onClick={() => setIsOpen(false)}
+                    className="block text-lg text-gray-700 hover:text-[#7AA859]"
+                  >
+                    Upcoming Projects
+                  </Link>
+                </div>
+              )}
+            </div>
+
             <Link
-              href="/story"
+              href="/news-events"
               onClick={() => setIsOpen(false)}
-              className="block text-lg text-gray-700 hover:text-[#7AA859]"
+              className="block text-lg font-medium text-gray-800 hover:text-[#7AA859]"
             >
-              Our Story
+              NEWS & EVENTS
             </Link>
             <Link
-              href="/bod"
+              href="/career"
               onClick={() => setIsOpen(false)}
-              className="block text-lg text-gray-700 hover:text-[#7AA859]"
+              className="block text-lg font-medium text-gray-800 hover:text-[#7AA859]"
             >
-              Board of Directors
+              CAREER
             </Link>
             <Link
-              href="/management-team"
+              href="/contact"
               onClick={() => setIsOpen(false)}
-              className="block text-lg text-gray-700 hover:text-[#7AA859]"
+              className="block text-lg font-medium text-gray-800 hover:text-[#7AA859]"
             >
-              Management Team
-            </Link>
-            <Link
-              href="/mission-vision"
-              onClick={() => setIsOpen(false)}
-              className="block text-lg text-gray-700 hover:text-[#7AA859]"
-            >
-              Mission and Vision
-            </Link>
-            <Link
-              href="/clients"
-              onClick={() => setIsOpen(false)}
-              className="block text-lg text-gray-700 hover:text-[#7AA859]"
-            >
-              Our Clients
+              CONTACT
             </Link>
           </div>
-        )}
-      </div>
-
-      {/* Projects */}
-      <div className="relative">
-        <button
-          onClick={() => toggleSubmenu("projects")}
-          className="flex items-center gap-1 text-lg font-medium text-gray-800 hover:text-[#7AA859]"
-        >
-          PROJECTS{" "}
-          {openSubmenu === "projects" ? (
-            <FaChevronUp className="text-sm" />
-          ) : (
-            <FaChevronDown className="text-sm" />
-          )}
-        </button>
-        {openSubmenu === "projects" && (
-          <div className="mt-2 ml-4 space-y-2">
-            <Link
-              href="/project-status/ongoing"
-              onClick={() => setIsOpen(false)}
-              className="block text-lg text-gray-700 hover:text-[#7AA859]"
-            >
-              Ongoing Project
-            </Link>
-            <Link
-              href="/project-status/completed"
-              onClick={() => setIsOpen(false)}
-              className="block text-lg text-gray-700 hover:text-[#7AA859]"
-            >
-              Completed Project
-            </Link>
-            <Link
-              href="/project-status/upcoming"
-              onClick={() => setIsOpen(false)}
-              className="block text-lg text-gray-700 hover:text-[#7AA859]"
-            >
-              Upcoming Projects
-            </Link>
-          </div>
-        )}
-      </div>
-
-      <Link
-        href="/news-events"
-        onClick={() => setIsOpen(false)}
-        className="block text-lg font-medium text-gray-800 hover:text-[#7AA859]"
-      >
-        NEWS & EVENTS
-      </Link>
-      <Link
-        href="/career"
-        onClick={() => setIsOpen(false)}
-        className="block text-lg font-medium text-gray-800 hover:text-[#7AA859]"
-      >
-        CAREER
-      </Link>
-      <Link
-        href="/contact"
-        onClick={() => setIsOpen(false)}
-        className="block text-lg font-medium text-gray-800 hover:text-[#7AA859]"
-      >
-        CONTACT
-      </Link>
-    </div>
-  </div>
-)}
+        </div>
+      )}
     </nav>
   );
 }

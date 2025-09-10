@@ -54,7 +54,7 @@ export default function Slider() {
   return (
     <div className="w-full mt-16 relative">
       {/* Main Image Slider */}
-      <div className="relative w-full h-48 md:w-full md:h-[90vh] overflow-hidden shadow-md">
+      <div className="relative w-full h-48 md:w-full md:h-[100vh] overflow-hidden shadow-md">
         {/* Slides with zoom effect */}
         {images.map((src, index) => (
           <div
@@ -76,7 +76,7 @@ export default function Slider() {
         ))}
 
         {/* Arrows (Desktop Only) */}
-        <div className="hidden md:block">
+        {/* <div className="hidden md:block">
           <button
             onClick={() => handleNavigation('prev')}
             className={`absolute top-1/2 left-4 transform -translate-y-1/2 text-white text-3xl z-40 hover:scale-110 transition-transform ${
@@ -95,7 +95,7 @@ export default function Slider() {
           >
             <FaCircleArrowRight />
           </button>
-        </div>
+        </div> */}
 
         {/* Thumbnails (Desktop Only) */}
         <div className="hidden md:flex absolute bottom-44 right-4 z-50 gap-3 bg-black/40 px-4 py-2 rounded-md">
@@ -152,7 +152,7 @@ export default function Slider() {
         {/* Contact Number (Mobile Only) */}
         <div className="flex md:hidden absolute bottom-5 inset-x-0 items-center justify-center z-50">
           <div className="bg-black/40 backdrop-blur-md px-6 py-2 rounded-md text-white text-lg font-semibold text-center">
-            +880 17 51 51 12 12
+            <Link href='+880 17 51 51 12 12'>+880 17 51 51 12 12</Link>
           </div>
         </div>
       </div>
