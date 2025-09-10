@@ -202,10 +202,10 @@ const ViewProjectsPage: React.FC = () => {
 
               {/* Sold Out Overlay Image - Reduced to 50% size */}
               {project.status === 'soldout' && (
-                <div className="absolute inset-0 z-20 flex items-center justify-center">
+                <div className="absolute inset-0 z-20 flex justify-start">
                   <div className="relative w-1/2 h-1/2">
                     <Image
-                      src="/img/soldout.jpg" // Make sure to place this image in your public folder
+                      src="/img/soldout.png" // Make sure to place this image in your public folder
                       alt="Sold Out"
                       fill
                       className="object-contain opacity-90"
