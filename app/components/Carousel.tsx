@@ -59,11 +59,10 @@ export default function Slider() {
         {images.map((src, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-all duration-[5000ms] ease-in-out ${
-              index === current
+            className={`absolute inset-0 transition-all duration-[5000ms] ease-in-out ${index === current
                 ? 'opacity-100 z-10 scale-100'
                 : 'opacity-0 z-0 scale-150'
-            }`}
+              }`}
           >
             <Image
               src={src}
@@ -103,9 +102,8 @@ export default function Slider() {
             <div
               key={index}
               onClick={() => setCurrent(index)}
-              className={`cursor-pointer rounded-md border-5 transition duration-300 ${
-                current === index ? 'border-[#fff]' : 'border-transparent'
-              }`}
+              className={`cursor-pointer rounded-md border-5 transition duration-300 ${current === index ? 'border-[#fff]' : 'border-transparent'
+                }`}
             >
               <Image
                 src={src}
@@ -151,9 +149,12 @@ export default function Slider() {
 
         {/* Contact Number (Mobile Only) */}
         <div className="flex md:hidden absolute bottom-5 inset-x-0 items-center justify-center z-50">
-          <div className="bg-black/40 backdrop-blur-md px-6 py-2 rounded-md text-white text-lg font-semibold text-center">
-            <Link href='+880 17 51 51 12 12'>+880 17 51 51 12 12</Link>
-          </div>
+          <a
+            href="tel:+8801751511212"
+            className="bg-black/40 backdrop-blur-md px-6 py-2 rounded-md text-white text-lg font-semibold text-center"
+          >
+            +880 17 51 51 12 12
+          </a>
         </div>
       </div>
     </div>
