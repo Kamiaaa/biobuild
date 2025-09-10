@@ -16,7 +16,6 @@ interface Project {
 
 const ViewProjectsPage: React.FC = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
   const isPaused = useRef(false);
 
   const [projects, setProjects] = useState<Project[]>([]);
@@ -25,6 +24,9 @@ const ViewProjectsPage: React.FC = () => {
 
   // shared position state
   const [position, setPosition] = useState(0);
+
+  // fixed card width (px)
+  const itemWidth = 288;
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -49,14 +51,13 @@ const ViewProjectsPage: React.FC = () => {
 
     let animationFrameId: number;
     const speed = 1; // scroll speed (px/frame)
-    const itemWidth = 288;
     const totalWidth = itemWidth * projects.length;
 
     const animate = () => {
       if (!isPaused.current) {
         setPosition(prev => {
           let newPos = prev - speed;
-          if (newPos <= -totalWidth) {
+          if (Math.abs(newPos) >= totalWidth) {
             newPos = 0; // seamless reset
           }
           return newPos;
@@ -105,33 +106,33 @@ const ViewProjectsPage: React.FC = () => {
     }, 1500); // 1.5s pause
   };
 
-  // Next button
+  // Next button (slide one by one)
   const handleNext = () => {
-    if (!containerRef.current || projects.length === 0) return;
+    if (projects.length === 0) return;
     pauseAutoScroll();
 
-    const scrollAmount = containerRef.current.clientWidth;
     setPosition(prev => {
-      const totalWidth = 288 * projects.length * 2;
-      let newPos = prev - scrollAmount;
-      if (Math.abs(newPos) >= totalWidth / 2) {
-        return -scrollAmount; // reset to second half
+      const totalWidth = itemWidth * projects.length;
+      let newPos = prev - itemWidth;
+
+      if (Math.abs(newPos) >= totalWidth) {
+        return 0; // reset to start
       }
       return newPos;
     });
   };
 
-  // Prev button
+  // Prev button (slide one by one)
   const handlePrev = () => {
-    if (!containerRef.current || projects.length === 0) return;
+    if (projects.length === 0) return;
     pauseAutoScroll();
 
-    const scrollAmount = containerRef.current.clientWidth;
     setPosition(prev => {
-      let newPos = prev + scrollAmount;
+      let newPos = prev + itemWidth;
+
       if (newPos > 0) {
-        const totalWidth = 288 * projects.length;
-        return -(totalWidth - scrollAmount);
+        const totalWidth = itemWidth * projects.length;
+        return -(totalWidth - itemWidth); // go to last card
       }
       return newPos;
     });
@@ -159,7 +160,7 @@ const ViewProjectsPage: React.FC = () => {
         Turning Ordinary Into Extraordinary!
       </h1>
 
-      <div className="relative w-full overflow-hidden" ref={containerRef}>
+      <div className="relative w-full overflow-hidden">
         {showArrows && (
           <>
             <button
@@ -186,14 +187,15 @@ const ViewProjectsPage: React.FC = () => {
           {[...projects, ...projects].map((project, index) => (
             <div key={project._id + '-' + index} className="relative group w-72 flex-shrink-0">
               <div
-                className={`absolute top-2 right-2 z-10 text-xs font-semibold px-3 py-1 rounded-full shadow capitalize ${project.status === 'completed'
+                className={`absolute top-2 right-2 z-10 text-xs font-semibold px-3 py-1 rounded-full shadow capitalize ${
+                  project.status === 'completed'
                     ? 'bg-green-100 text-green-800'
                     : project.status === 'ongoing'
-                      ? 'bg-yellow-100 text-yellow-800'
-                      : project.status === 'upcoming'
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-red-100 text-red-800' // soldout
-                  }`}
+                    ? 'bg-yellow-100 text-yellow-800'
+                    : project.status === 'upcoming'
+                    ? 'bg-blue-100 text-blue-800'
+                    : 'bg-red-100 text-red-800' // soldout
+                }`}
               >
                 {project.status}
               </div>
