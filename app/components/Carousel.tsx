@@ -54,7 +54,7 @@ export default function Slider() {
   return (
     <div className="w-full mt-16 relative">
       {/* Main Image Slider */}
-      <div className="relative w-full h-48 md:w-full md:h-[100vh] overflow-hidden shadow-md">
+      <div className="relative w-full h-48 md:w-full md:h-[90vh] overflow-hidden shadow-md">
         {/* Slides with zoom effect */}
         {images.map((src, index) => (
           <div
