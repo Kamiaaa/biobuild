@@ -102,7 +102,7 @@ export default function Navbar() {
             : "-translate-y-10 opacity-0 pointer-events-none"
             }`}
         >
-          <div className="px-8 py-72 space-y-4">
+          <div className="px-8 py-56 space-y-4">
             {/* Home link with close button */}
             {/* Home link with close button */}
             <div className="flex items-center justify-between">
