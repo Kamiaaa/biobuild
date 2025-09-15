@@ -68,7 +68,8 @@ export default function NewsGallery() {
   const selectedItem = selectedIndex >= 0 ? items[selectedIndex] : null;
 
   return (
-    <div className="p-4">
+    <div className="container mx-auto max-w-7xl py-20">
+        <h1 className='text-3xl font-poppins font-semibold text-center pb-20'>News Gallery</h1>
       {/* Gallery Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {items.map((item, index) => (

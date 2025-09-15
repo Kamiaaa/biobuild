@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { FaCalendarAlt, FaNewspaper, FaMapMarkerAlt, FaArrowLeft } from 'react-icons/fa';
 import Link from 'next/link';
+import NewsGallery from '@/app/components/NewsGallery';
 
 interface NewsEvent {
   _id: string;
@@ -166,6 +167,7 @@ export default function NewsEventDetailPage() {
           )} */}
         </div>
       </div>
+      <NewsGallery/>
     </div>
   );
 }
