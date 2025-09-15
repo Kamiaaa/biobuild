@@ -10,6 +10,9 @@ const images = [
   '/img/slider/slide-01.jpg',
   '/img/slider/slide-02.jpg',
   '/img/slider/slide-03.jpg',
+  '/img/slider/slide-04.jpg',
+  '/img/slider/slide-05.jpg',
+  '/img/slider/slide-06.jpg',
 ];
 
 const iconLinks = [
