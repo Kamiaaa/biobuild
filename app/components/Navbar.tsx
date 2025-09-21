@@ -49,9 +49,9 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-gray-900 shadow-lg fixed w-full z-80">
+    <nav className="h-24 bg-gray-900 shadow-lg fixed w-full z-80">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-18 gap-4">
+        <div className="flex items-center justify-between h-24 gap-4">
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="text-xl font-bold text-gray-800">
@@ -60,7 +60,7 @@ export default function Navbar() {
                 alt="logo"
                 height={200}
                 width={200}
-                className="w-32 h-auto"
+                className="w-40 h-auto"
               />
             </Link>
           </div>
