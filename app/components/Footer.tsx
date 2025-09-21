@@ -100,9 +100,10 @@ const Footer: React.FC = () => {
               <div className="p-2 bg-gray-800 rounded-full">
                 <FaMapMarkerAlt className="text-[#7AA859]" />
               </div>
-              <p className="text-gray-300 text-lg leading-relaxed">
-                House: 05, Road 20, Sector 13, Uttara, Dhaka-1230, Bangladesh
-              </p>
+              <div className="text-gray-300 text-lg leading-relaxed">
+                <a href='https://maps.app.goo.gl/ZJ7UaMR8i1KNWVPM7' target='_blank'><p>Head Office: House: 05, Road 20, Sector 13, Uttara, Dhaka-1230</p></a>
+                <a href='https://maps.app.goo.gl/i2JDPi3FHYFwsf3T8' target='_blank'><p className='pt-2'>Jolshiri Abashon: House: 06, Road: 503A, Sector: 16, Jolshiri Abashon</p></a>
+              </div>
             </div>
             <div className="flex items-center gap-4">
               <div className="p-2 bg-gray-800 rounded-full">

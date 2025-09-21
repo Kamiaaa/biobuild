@@ -39,8 +39,9 @@ const PromotionalBanner = () => {
 
             {/* Heading */}
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white max-w-2xl z-10">
-              BIOBUILD Leads the Way with Jolshiri Abashon
-              Bangladesh's First Smart City Revolution
+              BIOBUILD | Jolshiri Abashon | Uttara
+              Where Sustainability Meets Innovation
+
             </h2>
           </>
         ) : (
