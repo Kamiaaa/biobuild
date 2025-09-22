@@ -4,10 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import Link from 'next/link';
-import { FiEdit, FiTrash2, FiPlus } from 'react-icons/fi';
+import { FiEdit, FiTrash2, FiPlus, FiArrowUp, FiArrowDown } from 'react-icons/fi';
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import Layout from '@/app/components/Layout';
-
 
 interface Project {
   _id: string;
@@ -17,16 +16,31 @@ interface Project {
   size: string;
   units: number;
   floors: string;
-  createdAt?: string;
+  status: 'ongoing' | 'completed' | 'upcoming' | 'soldout';
+  isActive: boolean;
+  createdAt: string;
 }
+
+type SortField = 'title' | 'location' | 'size' | 'units' | 'floors' | 'status' | 'createdAt' | 'isActive';
+type SortOrder = 'asc' | 'desc';
 
 export default function ProjectsCrudPage() {
   const router = useRouter();
   const [projects, setProjects] = useState<Project[]>([]);
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [deleting, setDeleting] = useState<string | null>(null);
   
+  // Sort state
+  const [sortField, setSortField] = useState<SortField>('createdAt');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
+  
+  // Filter state
+  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [activeFilter, setActiveFilter] = useState<string>('all');
+  const [searchTerm, setSearchTerm] = useState('');
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const projectsPerPage = 6;
@@ -49,11 +63,82 @@ export default function ProjectsCrudPage() {
     fetchProjects();
   }, []);
 
+  // Apply filters and sorting
+  useEffect(() => {
+    let filtered = [...projects];
+
+    // Apply status filter
+    if (statusFilter !== 'all') {
+      filtered = filtered.filter(project => project.status === statusFilter);
+    }
+
+    // Apply active filter
+    if (activeFilter !== 'all') {
+      const isActive = activeFilter === 'active';
+      filtered = filtered.filter(project => project.isActive === isActive);
+    }
+
+    // Apply search filter
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      filtered = filtered.filter(project =>
+        project.title.toLowerCase().includes(term) ||
+        project.location.toLowerCase().includes(term) ||
+        project.size.toLowerCase().includes(term)
+      );
+    }
+
+    // Apply sorting
+    filtered.sort((a, b) => {
+      let aValue: any = a[sortField];
+      let bValue: any = b[sortField];
+
+      // Handle boolean values for isActive
+      if (sortField === 'isActive') {
+        aValue = aValue ? 1 : 0;
+        bValue = bValue ? 1 : 0;
+      }
+
+      // Handle string comparison
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return sortOrder === 'asc' 
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
+      }
+
+      // Handle number comparison
+      if (typeof aValue === 'number' && typeof bValue === 'number') {
+        return sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
+      }
+
+      // Handle date comparison
+      if (sortField === 'createdAt') {
+        const aDate = new Date(aValue).getTime();
+        const bDate = new Date(bValue).getTime();
+        return sortOrder === 'asc' ? aDate - bDate : bDate - aDate;
+      }
+
+      return 0;
+    });
+
+    setFilteredProjects(filtered);
+    setCurrentPage(1); // Reset to first page when filters change
+  }, [projects, sortField, sortOrder, statusFilter, activeFilter, searchTerm]);
+
   // Calculate pagination values
   const indexOfLastProject = currentPage * projectsPerPage;
   const indexOfFirstProject = indexOfLastProject - projectsPerPage;
-  const currentProjects = projects.slice(indexOfFirstProject, indexOfLastProject);
-  const totalPages = Math.ceil(projects.length / projectsPerPage);
+  const currentProjects = filteredProjects.slice(indexOfFirstProject, indexOfLastProject);
+  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
+
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortOrder('asc');
+    }
+  };
 
   const handleDelete = async (id: string) => {
     const confirmDelete = confirm('Are you sure you want to delete this project?');
@@ -72,8 +157,6 @@ export default function ProjectsCrudPage() {
 
       // Refresh projects after deletion
       fetchProjects();
-      // Reset to first page after deletion to avoid empty page
-      setCurrentPage(1);
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Delete failed');
     } finally {
@@ -81,12 +164,17 @@ export default function ProjectsCrudPage() {
     }
   };
 
+  const getSortIcon = (field: SortField) => {
+    if (sortField !== field) return null;
+    return sortOrder === 'asc' ? <FiArrowUp className="ml-1" /> : <FiArrowDown className="ml-1" />;
+  };
+
   useEffect(() => {
-        const user = localStorage.getItem("user");
-        if (!user) {
-            router.push("/login");
-        }
-    }, [router]);
+    const user = localStorage.getItem("user");
+    if (!user) {
+      router.push("/login");
+    }
+  }, [router]);
 
   return (
     <Layout>
@@ -103,6 +191,70 @@ export default function ProjectsCrudPage() {
             <FiPlus className="mr-2" />
             Add Project
           </Link>
+        </div>
+
+        {/* Filters and Search */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Search
+              </label>
+              <input
+                type="text"
+                placeholder="Search projects..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Status
+              </label>
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+              >
+                <option value="all">All Statuses</option>
+                <option value="ongoing">Ongoing</option>
+                <option value="completed">Completed</option>
+                <option value="upcoming">Upcoming</option>
+                <option value="soldout">Sold Out</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Visibility
+              </label>
+              <select
+                value={activeFilter}
+                onChange={(e) => setActiveFilter(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+              >
+                <option value="all">All</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Sort By
+              </label>
+              <select
+                value={sortField}
+                onChange={(e) => setSortField(e.target.value as SortField)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+              >
+                <option value="createdAt">Date Created</option>
+                <option value="title">Title</option>
+                <option value="location">Location</option>
+                <option value="status">Status</option>
+                <option value="isActive">Visibility</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         {loading ? (
@@ -136,20 +288,68 @@ export default function ProjectsCrudPage() {
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                         Image
                       </th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                        Title
+                      <th 
+                        scope="col" 
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
+                        onClick={() => handleSort('title')}
+                      >
+                        <div className="flex items-center">
+                          Title
+                          {getSortIcon('title')}
+                        </div>
                       </th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                        Location
+                      <th 
+                        scope="col" 
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
+                        onClick={() => handleSort('location')}
+                      >
+                        <div className="flex items-center">
+                          Location
+                          {getSortIcon('location')}
+                        </div>
                       </th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                        Size
+                      <th 
+                        scope="col" 
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
+                        onClick={() => handleSort('size')}
+                      >
+                        <div className="flex items-center">
+                          Size
+                          {getSortIcon('size')}
+                        </div>
                       </th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                        Units
+                      <th 
+                        scope="col" 
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
+                        onClick={() => handleSort('units')}
+                      >
+                        <div className="flex items-center">
+                          Units
+                          {getSortIcon('units')}
+                        </div>
                       </th>
                       <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                         Floors
+                      </th>
+                      <th 
+                        scope="col" 
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
+                        onClick={() => handleSort('status')}
+                      >
+                        <div className="flex items-center">
+                          Status
+                          {getSortIcon('status')}
+                        </div>
+                      </th>
+                      <th 
+                        scope="col" 
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
+                        onClick={() => handleSort('isActive')}
+                      >
+                        <div className="flex items-center">
+                          Visibility
+                          {getSortIcon('isActive')}
+                        </div>
                       </th>
                       <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                         Actions
@@ -177,13 +377,30 @@ export default function ProjectsCrudPage() {
                           <div className="text-sm text-gray-500 dark:text-gray-300">{project.location}</div>
                         </td>
                         <td className="px-6 py-4">
-                          <div className="text-sm text-gray-500 dark:text-gray-300 max-w-xs line-clamp-2">{project.size}</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-300">{project.size}</div>
                         </td>
                         <td className="px-6 py-4">
-                          <div className="text-sm text-gray-500 dark:text-gray-300 max-w-xs line-clamp-2">{project.units}</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-300">{project.units}</div>
                         </td>
                         <td className="px-6 py-4">
-                          <div className="text-sm text-gray-500 dark:text-gray-300 max-w-xs line-clamp-2">{project.floors}</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-300">{project.floors}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                            project.status === 'completed' ? 'bg-green-100 text-green-800' :
+                            project.status === 'ongoing' ? 'bg-yellow-100 text-yellow-800' :
+                            project.status === 'upcoming' ? 'bg-blue-100 text-blue-800' :
+                            'bg-red-100 text-red-800'
+                          }`}>
+                            {project.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                            project.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                          }`}>
+                            {project.isActive ? 'Active' : 'Inactive'}
+                          </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <div className="flex justify-end space-x-4">
@@ -210,7 +427,7 @@ export default function ProjectsCrudPage() {
                 </table>
               </div>
 
-              {projects.length === 0 && (
+              {filteredProjects.length === 0 && (
                 <div className="text-center py-12">
                   <svg
                     className="mx-auto h-12 w-12 text-gray-400"
@@ -227,24 +444,29 @@ export default function ProjectsCrudPage() {
                       d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">No projects</h3>
+                  <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">No projects found</h3>
                   <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    Get started by adding a new project.
+                    {projects.length === 0 
+                      ? 'Get started by adding a new project.' 
+                      : 'Try adjusting your filters or search term.'
+                    }
                   </p>
-                  <div className="mt-6">
-                    <Link
-                      href="/projects/add"
-                      className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                    >
-                      <FiPlus className="-ml-1 mr-2 h-5 w-5" />
-                      Add Project
-                    </Link>
-                  </div>
+                  {projects.length === 0 && (
+                    <div className="mt-6">
+                      <Link
+                        href="/projects/add"
+                        className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                      >
+                        <FiPlus className="-ml-1 mr-2 h-5 w-5" />
+                        Add Project
+                      </Link>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
 
-            {/* Client-side Pagination Controls */}
+            {/* Pagination Controls */}
             {totalPages > 1 && (
               <div className="flex justify-center mt-8 gap-2">
                 <button
@@ -274,6 +496,12 @@ export default function ProjectsCrudPage() {
                 </button>
               </div>
             )}
+
+            {/* Results count */}
+            <div className="mt-4 text-sm text-gray-600 dark:text-gray-400 text-center">
+              Showing {currentProjects.length} of {filteredProjects.length} projects
+              {filteredProjects.length !== projects.length && ` (filtered from ${projects.length} total)`}
+            </div>
           </>
         )}
       </div>

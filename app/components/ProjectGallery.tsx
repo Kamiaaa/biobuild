@@ -12,13 +12,15 @@ interface Project {
   hoverTitle: string;
   hoverText: string;
   status: 'ongoing' | 'completed' | 'upcoming' | 'soldout';
+  isActive: boolean; // Added isActive field
 }
 
 const ViewProjectsPage: React.FC = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const isPaused = useRef(false);
 
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [allProjects, setAllProjects] = useState<Project[]>([]);
+  const [activeProjects, setActiveProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [showArrows, setShowArrows] = useState(false);
 
@@ -33,8 +35,12 @@ const ViewProjectsPage: React.FC = () => {
       try {
         const res = await fetch('/api/projects');
         const data = await res.json();
-        setProjects(data);
-        setShowArrows(data.length > 0);
+        setAllProjects(data);
+        
+        // Filter only active projects for display
+        const active = data.filter((project: Project) => project.isActive);
+        setActiveProjects(active);
+        setShowArrows(active.length > 0);
       } catch (err) {
         console.error('Failed to fetch projects:', err);
       } finally {
@@ -47,11 +53,11 @@ const ViewProjectsPage: React.FC = () => {
 
   // Auto scroll
   useEffect(() => {
-    if (projects.length === 0) return;
+    if (activeProjects.length === 0) return;
 
     let animationFrameId: number;
     const speed = 1; // scroll speed (px/frame)
-    const totalWidth = itemWidth * projects.length;
+    const totalWidth = itemWidth * activeProjects.length;
 
     const animate = () => {
       if (!isPaused.current) {
@@ -82,7 +88,7 @@ const ViewProjectsPage: React.FC = () => {
         slider.removeEventListener('mouseleave', handleMouseLeave);
       };
     }
-  }, [projects]);
+  }, [activeProjects]);
 
   // Apply transform whenever position changes
   useEffect(() => {
@@ -108,11 +114,11 @@ const ViewProjectsPage: React.FC = () => {
 
   // Next button (slide one by one)
   const handleNext = () => {
-    if (projects.length === 0) return;
+    if (activeProjects.length === 0) return;
     pauseAutoScroll();
 
     setPosition(prev => {
-      const totalWidth = itemWidth * projects.length;
+      const totalWidth = itemWidth * activeProjects.length;
       let newPos = prev - itemWidth;
 
       if (Math.abs(newPos) >= totalWidth) {
@@ -124,14 +130,14 @@ const ViewProjectsPage: React.FC = () => {
 
   // Prev button (slide one by one)
   const handlePrev = () => {
-    if (projects.length === 0) return;
+    if (activeProjects.length === 0) return;
     pauseAutoScroll();
 
     setPosition(prev => {
       let newPos = prev + itemWidth;
 
       if (newPos > 0) {
-        const totalWidth = itemWidth * projects.length;
+        const totalWidth = itemWidth * activeProjects.length;
         return -(totalWidth - itemWidth); // go to last card
       }
       return newPos;
@@ -146,10 +152,20 @@ const ViewProjectsPage: React.FC = () => {
     );
   }
 
-  if (projects.length === 0) {
+  if (activeProjects.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-4">
-        <p className="text-gray-600 text-lg">No projects found.</p>
+        <p className="text-gray-600 text-lg">
+          {allProjects.length === 0 
+            ? 'No projects found.' 
+            : 'No active projects available at the moment.'
+          }
+        </p>
+        {allProjects.length > 0 && (
+          <p className="text-gray-500 text-sm">
+            Check back later for new projects!
+          </p>
+        )}
       </div>
     );
   }
@@ -184,7 +200,7 @@ const ViewProjectsPage: React.FC = () => {
           className="flex gap-10 w-max py-5"
           style={{ willChange: 'transform' }}
         >
-          {[...projects, ...projects].map((project, index) => (
+          {[...activeProjects, ...activeProjects].map((project, index) => (
             <div key={project._id + '-' + index} className="relative group w-72 flex-shrink-0">
               <div
                 className={`absolute top-2 right-2 z-10 text-xs font-semibold px-3 py-1 rounded-full shadow capitalize ${

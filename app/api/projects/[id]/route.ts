@@ -1,3 +1,4 @@
+//app/api/projects/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import connectMongo from '@/lib/mongoose';
 import { Project } from '@/models/Project';
@@ -18,7 +19,20 @@ export async function PATCH(req: NextRequest, { params }: { params: any }) {
   try {
     await connectMongo();
     const updates = await req.json();
-    const updatedProject = await Project.findByIdAndUpdate(params.id, updates, { new: true });
+    
+    // Handle isActive field conversion if it's passed as a string
+    if (updates.isActive !== undefined) {
+      if (typeof updates.isActive === 'string') {
+        updates.isActive = updates.isActive === 'true';
+      }
+    }
+    
+    const updatedProject = await Project.findByIdAndUpdate(
+      params.id, 
+      updates, 
+      { new: true, runValidators: true }
+    );
+    
     if (!updatedProject) return NextResponse.json({ message: 'Project not found' }, { status: 404 });
     return NextResponse.json(updatedProject);
   } catch (error) {

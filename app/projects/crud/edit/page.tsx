@@ -1,3 +1,4 @@
+// app/projects/edit/page.tsx
 'use client';
 
 import React, { useEffect, useState, Suspense } from 'react';
@@ -5,7 +6,6 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { FiUpload, FiSave, FiArrowLeft, FiTrash2, FiLoader, FiPlus, FiX } from 'react-icons/fi';
 import Image from 'next/image';
 import Layout from '@/app/components/Layout';
-
 
 interface Project {
   _id: string;
@@ -20,6 +20,7 @@ interface Project {
   floors: string;
   amenities: string[];
   image: string;
+  isActive: boolean; // New field
 }
 
 // Extracted content into its own component inside the same file
@@ -40,7 +41,8 @@ const EditProjectContent = () => {
     units: 0,
     floors: '',
     amenities: [],
-    image: ''
+    image: '',
+    isActive: true, // New field with default
   });
 
   const [newAmenity, setNewAmenity] = useState('');
@@ -89,6 +91,10 @@ const EditProjectContent = () => {
 
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setForm(prev => ({ ...prev, status: e.target.value as 'ongoing' | 'completed' | 'upcoming' | 'soldout' }));
+  };
+
+  const handleActiveChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setForm(prev => ({ ...prev, isActive: e.target.value === 'active' }));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -193,6 +199,7 @@ const EditProjectContent = () => {
       setIsDeleting(false);
     }
   };
+
   useEffect(() => {
     const user = localStorage.getItem("user");
     if (!user) {
@@ -306,7 +313,7 @@ const EditProjectContent = () => {
 
               <div>
                 <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Status
+                  Project Status
                 </label>
                 <select
                   id="status"
@@ -319,6 +326,23 @@ const EditProjectContent = () => {
                   <option value="completed">Completed</option>
                   <option value="upcoming">Upcoming</option>
                   <option value="soldout">Soldout</option>
+                </select>
+              </div>
+
+              {/* Active Status Field */}
+              <div>
+                <label htmlFor="isActive" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Visibility Status
+                </label>
+                <select
+                  id="isActive"
+                  value={form.isActive ? 'active' : 'inactive'}
+                  onChange={handleActiveChange}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 dark:text-white"
+                  required
+                >
+                  <option value="active">Active (Visible on site)</option>
+                  <option value="inactive">Inactive (Hidden from site)</option>
                 </select>
               </div>
 

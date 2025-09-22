@@ -1,4 +1,4 @@
-//app/projects/add/page.tsx
+// app/projects/add/page.tsx
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { FiUpload, FiSave, FiArrowLeft } from 'react-icons/fi';
 import Image from 'next/image';
 import Layout from '@/app/components/Layout';
-
 
 const AddProjectPage = () => {
   const router = useRouter();
@@ -26,6 +25,7 @@ const AddProjectPage = () => {
   const [imagePreview, setImagePreview] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
+  const [isActive, setIsActive] = useState(true); // New state for active status
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -60,7 +60,6 @@ const AddProjectPage = () => {
       setLoading(false);
       return;
     }
-
 
     try {
       const formData = new FormData();
@@ -97,6 +96,7 @@ const AddProjectPage = () => {
           floors,
           amenities,
           image: cloudinaryData.secure_url,
+          isActive, // Include active status
         }),
       });
 
@@ -119,6 +119,7 @@ const AddProjectPage = () => {
       setAmenities([]);
       setImageFile(null);
       setImagePreview('');
+      setIsActive(true); // Reset to default
 
       setTimeout(() => router.push('/projects/crud'), 1500);
     } catch (err: any) {
@@ -127,12 +128,14 @@ const AddProjectPage = () => {
       setLoading(false);
     }
   };
-useEffect(() => {
-        const user = localStorage.getItem("user");
-        if (!user) {
-            router.push("/login");
-        }
-    }, [router]);
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (!user) {
+      router.push("/login");
+    }
+  }, [router]);
+
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
@@ -186,7 +189,7 @@ useEffect(() => {
 
               {/* status */}
               <div>
-                <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Project Status</label>
                 <select
                   id="status"
                   value={status}
@@ -201,6 +204,23 @@ useEffect(() => {
                 </select>
               </div>
 
+              {/* Active Status */}
+              <div>
+                <label htmlFor="isActive" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Visibility Status
+                </label>
+                <select
+                  id="isActive"
+                  value={isActive ? 'active' : 'inactive'}
+                  onChange={(e) => setIsActive(e.target.value === 'active')}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 dark:text-white"
+                  required
+                >
+                  <option value="active">Active (Visible on site)</option>
+                  <option value="inactive">Inactive (Hidden from site)</option>
+                </select>
+              </div>
+
               {/* description */}
               <div>
                 <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
@@ -212,7 +232,6 @@ useEffect(() => {
                   placeholder="Enter project description (optional)"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
                 />
-
               </div>
 
               {/* size */}

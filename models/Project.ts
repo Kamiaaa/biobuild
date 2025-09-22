@@ -13,6 +13,7 @@ export interface IProject extends Document {
   floors: string;
   amenities: string[];
   image: string;
+  isActive: boolean; // New field for active/inactive status
 }
 
 const ProjectSchema = new Schema<IProject>(
@@ -32,6 +33,7 @@ const ProjectSchema = new Schema<IProject>(
     floors: { type: String, required: true },
     amenities: { type: [String], required: true },
     image: { type: String, required: true },
+    isActive: { type: Boolean, default: true }, // New field with default value
   },
   { timestamps: true }
 );

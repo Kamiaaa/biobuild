@@ -19,9 +19,46 @@ export async function POST(req: NextRequest) {
   try {
     await connectMongo();
     const body = await req.json();
+    
+    // Handle isActive field conversion if it's passed as a string
+    if (body.isActive !== undefined) {
+      if (typeof body.isActive === 'string') {
+        body.isActive = body.isActive === 'true';
+      }
+    }
+    
     const newProject = await Project.create(body);
     return NextResponse.json(newProject, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ message: 'Error creating project', error }, { status: 500 });
+  } catch (error: any) {
+    console.error('POST error:', error);
+    
+    // Handle validation errors
+    if (error.name === 'ValidationError') {
+      return NextResponse.json(
+        { 
+          message: 'Validation error', 
+          errors: error.errors 
+        }, 
+        { status: 400 }
+      );
+    }
+    
+    // Handle duplicate key errors
+    if (error.code === 11000) {
+      return NextResponse.json(
+        { 
+          message: 'Project with this title already exists' 
+        }, 
+        { status: 400 }
+      );
+    }
+    
+    return NextResponse.json(
+      { 
+        message: 'Error creating project', 
+        error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error' 
+      }, 
+      { status: 500 }
+    );
   }
 }
