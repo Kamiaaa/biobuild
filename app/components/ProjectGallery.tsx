@@ -12,7 +12,8 @@ interface Project {
   hoverTitle: string;
   hoverText: string;
   status: 'ongoing' | 'completed' | 'upcoming' | 'soldout';
-  isActive: boolean; // Added isActive field
+  isActive: boolean;
+  category?: string;
 }
 
 const ViewProjectsPage: React.FC = () => {
@@ -23,6 +24,9 @@ const ViewProjectsPage: React.FC = () => {
   const [activeProjects, setActiveProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [showArrows, setShowArrows] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [categories, setCategories] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   // shared position state
   const [position, setPosition] = useState(0);
@@ -33,16 +37,47 @@ const ViewProjectsPage: React.FC = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
+        setError(null);
         const res = await fetch('/api/projects');
-        const data = await res.json();
-        setAllProjects(data);
         
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        
+        const data = await res.json();
+        
+        // Handle different API response structures
+        let projects: Project[] = [];
+        
+        if (Array.isArray(data)) {
+          // If the API returns an array directly
+          projects = data;
+        } else if (data.data && Array.isArray(data.data)) {
+          // If the API returns { data: [], success: boolean }
+          projects = data.data;
+        } else if (data.projects && Array.isArray(data.projects)) {
+          // If the API returns { projects: [] }
+          projects = data.projects;
+        } else {
+          throw new Error('Unexpected API response format');
+        }
+        
+        setAllProjects(projects);
+        
+        // Extract unique categories
+        const uniqueCategories = Array.from(
+          new Set(projects.map((project: Project) => project.category || 'uncategorized'))
+        );
+        setCategories(['all', ...uniqueCategories]);
+
         // Filter only active projects for display
-        const active = data.filter((project: Project) => project.isActive);
-        setActiveProjects(active);
+        const active = projects.filter((project: Project) => project.isActive);
+        setActiveProjects(sortProjectsByStatus(active));
         setShowArrows(active.length > 0);
       } catch (err) {
-        console.error('Failed to fetch projects:', err);
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+        console.error('Failed to fetch projects:', errorMessage);
+        setError(`Failed to load projects: ${errorMessage}`);
       } finally {
         setLoading(false);
       }
@@ -50,6 +85,43 @@ const ViewProjectsPage: React.FC = () => {
 
     fetchProjects();
   }, []);
+
+  // Sort projects with soldout first, then by status
+  const sortProjectsByStatus = (projects: Project[]): Project[] => {
+    return [...projects].sort((a, b) => {
+      // Sold out projects come first
+      if (a.status === 'soldout' && b.status !== 'soldout') return -1;
+      if (a.status !== 'soldout' && b.status === 'soldout') return 1;
+      
+      // Then sort by other statuses if needed
+      const statusOrder: Record<string, number> = { 
+        soldout: 0, 
+        ongoing: 1, 
+        completed: 2, 
+        upcoming: 3 
+      };
+      return statusOrder[a.status] - statusOrder[b.status];
+    });
+  };
+
+  // Filter projects by selected category
+  useEffect(() => {
+    if (allProjects.length === 0) return;
+    
+    let filtered = allProjects.filter((project: Project) => project.isActive);
+    
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(
+        (project: Project) => (project.category || 'uncategorized') === selectedCategory
+      );
+    }
+    
+    setActiveProjects(sortProjectsByStatus(filtered));
+    setShowArrows(filtered.length > 0);
+    
+    // Reset position when category changes
+    setPosition(0);
+  }, [selectedCategory, allProjects]);
 
   // Auto scroll
   useEffect(() => {
@@ -60,7 +132,7 @@ const ViewProjectsPage: React.FC = () => {
     const totalWidth = itemWidth * activeProjects.length;
 
     const animate = () => {
-      if (!isPaused.current) {
+      if (!isPaused.current && sliderRef.current) {
         setPosition(prev => {
           let newPos = prev - speed;
           if (Math.abs(newPos) >= totalWidth) {
@@ -88,7 +160,13 @@ const ViewProjectsPage: React.FC = () => {
         slider.removeEventListener('mouseleave', handleMouseLeave);
       };
     }
-  }, [activeProjects]);
+    
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
+  }, [activeProjects, itemWidth]);
 
   // Apply transform whenever position changes
   useEffect(() => {
@@ -148,6 +226,21 @@ const ViewProjectsPage: React.FC = () => {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-4">
         <FaSpinner className="animate-spin text-4xl text-[#7AA859]" />
+        <p className="text-gray-600">Loading projects...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 gap-4">
+        <p className="text-red-600 text-lg">{error}</p>
+        <button 
+          onClick={() => window.location.reload()}
+          className="bg-[#7AA859] text-white px-4 py-2 rounded-md hover:bg-[#698c4e] transition-colors"
+        >
+          Try Again
+        </button>
       </div>
     );
   }
@@ -176,6 +269,25 @@ const ViewProjectsPage: React.FC = () => {
         Turning Ordinary Into Extraordinary!
       </h1>
 
+      {/* Category Filter */}
+      {/* {categories.length > 1 && (
+        <div className="flex flex-wrap justify-center gap-3">
+          {categories.map(category => (
+            <button
+              key={category}
+              onClick={() => setSelectedCategory(category)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                selectedCategory === category
+                  ? 'bg-[#7AA859] text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </button>
+          ))}
+        </div>
+      )} */}
+
       <div className="relative w-full overflow-hidden">
         {showArrows && (
           <>
@@ -201,7 +313,7 @@ const ViewProjectsPage: React.FC = () => {
           style={{ willChange: 'transform' }}
         >
           {[...activeProjects, ...activeProjects].map((project, index) => (
-            <div key={project._id + '-' + index} className="relative group w-72 flex-shrink-0">
+            <div key={`${project._id}-${index}`} className="relative group w-72 flex-shrink-0">
               <div
                 className={`absolute top-2 right-2 z-10 text-xs font-semibold px-3 py-1 rounded-full shadow capitalize ${
                   project.status === 'completed'
@@ -221,7 +333,7 @@ const ViewProjectsPage: React.FC = () => {
                 <div className="absolute inset-0 z-20 flex justify-start">
                   <div className="relative w-1/2 h-1/2">
                     <Image
-                      src="/img/soldout.png" // Make sure to place this image in your public folder
+                      src="/img/soldout.png"
                       alt="Sold Out"
                       fill
                       className="object-contain opacity-90"
