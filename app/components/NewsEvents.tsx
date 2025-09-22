@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { FaCalendarAlt, FaNewspaper } from 'react-icons/fa';
+import { FaCalendarAlt, FaNewspaper, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { HiOutlineArrowNarrowRight } from 'react-icons/hi';
 
 interface NewsEvent {
@@ -50,14 +50,11 @@ export default function NewsAndEventsPage() {
         <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
             {/* Hero Section with Background Image */}
 
-
             {/* News Section */}
             <section id="news-section" className="px-4 py-16">
                 <div className="max-w-7xl mx-auto">
                     {/* Back to Home Button */}
-                    <div className="mb-6">
-
-                    </div>
+                    <div className="mb-6"></div>
                     <h3 className="text-2xl md:text-3xl font-semibold mb-8 flex items-center text-gray-900 dark:text-gray-50">
                         <FaNewspaper className="mr-3 text-[#7AA859]" />
                         Latest News
@@ -70,24 +67,64 @@ export default function NewsAndEventsPage() {
                 </div>
             </section>
 
-            {/* Pagination Controls */}
+            {/* Professional Pagination Controls */}
             {totalPages > 1 && (
-                <div className="flex justify-center gap-4 my-12">
-                    <button
-                        onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                        disabled={page === 1}
-                        className="px-4 py-2 border rounded disabled:opacity-50"
-                    >
-                        Prev
-                    </button>
-                    <span className="px-4 py-2">Page {page} of {totalPages}</span>
-                    <button
-                        onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
-                        disabled={page === totalPages}
-                        className="px-4 py-2 border rounded disabled:opacity-50"
-                    >
-                        Next
-                    </button>
+                <div className="flex justify-center my-12">
+                    <nav className="flex items-center space-x-2">
+                        <button
+                            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                            disabled={page === 1}
+                            className="flex items-center justify-center w-10 h-10 text-gray-500 transition-colors duration-150 rounded-full dark:text-gray-400 hover:bg-[#7AA859] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                            aria-label="Previous page"
+                        >
+                            <FaChevronLeft className="w-4 h-4" />
+                        </button>
+
+                        {/* Page numbers */}
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => {
+                            // Show limited page numbers with ellipsis for many pages
+                            if (
+                                pageNumber === 1 ||
+                                pageNumber === totalPages ||
+                                (pageNumber >= page - 1 && pageNumber <= page + 1)
+                            ) {
+                                return (
+                                    <button
+                                        key={pageNumber}
+                                        onClick={() => setPage(pageNumber)}
+                                        className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-150 ${
+                                            page === pageNumber
+                                                ? 'bg-[#7AA859] text-white'
+                                                : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                                        }`}
+                                        aria-label={`Page ${pageNumber}`}
+                                        aria-current={page === pageNumber ? 'page' : undefined}
+                                    >
+                                        {pageNumber}
+                                    </button>
+                                );
+                            } else if (
+                                (pageNumber === page - 2 && page > 3) ||
+                                (pageNumber === page + 2 && page < totalPages - 2)
+                            ) {
+                                return (
+                                    <span key={pageNumber} className="px-2 text-gray-500 dark:text-gray-400">
+                                        ...
+                                    </span>
+                                );
+                            }
+                            return null;
+                        })}
+
+                        <button
+                            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+                            disabled={page === totalPages}
+                            className="flex items-center justify-center w-10 h-10 text-gray-500 transition-colors duration-150 rounded-full dark:text-gray-400 hover:bg-[#7AA859] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                            aria-label="Next page"
+                        >
+                            <FaChevronRight className="w-4 h-4" />
+                        </button>
+                    </nav>
                 </div>
             )}
         </div>
@@ -122,50 +159,3 @@ function NewsCard({ item }: { item: NewsEvent }) {
         </div>
     );
 }
-
-// function EventCard({ item }: { item: NewsEvent }) {
-//     return (
-//         <div className="group relative bg-white dark:bg-gray-700 rounded-xl overflow-hidden shadow hover:shadow-lg transition-all duration-300">
-//             <div className="h-auto overflow-hidden relative">
-//                 <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-//                 <div className="absolute top-4 right-4 bg-[#7AA859] text-white px-3 py-1 rounded-lg text-sm font-medium">
-//                     {item.date}
-//                 </div>
-//             </div>
-//             <div className="p-6">
-//                 <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
-//                     <svg
-//                         xmlns="http://www.w3.org/2000/svg"
-//                         className="h-4 w-4 mr-1"
-//                         fill="none"
-//                         viewBox="0 0 24 24"
-//                         stroke="currentColor"
-//                     >
-//                         <path
-//                             strokeLinecap="round"
-//                             strokeLinejoin="round"
-//                             strokeWidth={2}
-//                             d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-//                         />
-//                         <path
-//                             strokeLinecap="round"
-//                             strokeLinejoin="round"
-//                             strokeWidth={2}
-//                             d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-//                         />
-//                     </svg>
-//                     {item.location || 'N/A'}
-//                 </div>
-//                 <h4 className="text-xl font-semibold my-2 group-hover:text-[#7AA859] transition-colors duration-300">
-//                     {item.title}
-//                 </h4>
-//                 <p className="text-gray-600 dark:text-gray-300">{item.summary}</p>
-//             </div>
-//             <div className="px-6 pb-6">
-//                 <button className="px-4 py-2 bg-[#7AA859] text-white rounded-lg hover:bg-[#5d8a3f] transition">
-//                     Register Now
-//                 </button>
-//             </div>
-//         </div>
-//     );
-// }
