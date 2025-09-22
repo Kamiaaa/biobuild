@@ -298,7 +298,7 @@ export default function ProjectsCrudPage() {
                           {getSortIcon('title')}
                         </div>
                       </th>
-                      <th 
+                      {/* <th 
                         scope="col" 
                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
                         onClick={() => handleSort('location')}
@@ -307,7 +307,7 @@ export default function ProjectsCrudPage() {
                           Location
                           {getSortIcon('location')}
                         </div>
-                      </th>
+                      </th> */}
                       <th 
                         scope="col" 
                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600"
@@ -373,9 +373,9 @@ export default function ProjectsCrudPage() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm font-medium text-gray-900 dark:text-white">{project.title}</div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        {/* <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-500 dark:text-gray-300">{project.location}</div>
-                        </td>
+                        </td> */}
                         <td className="px-6 py-4">
                           <div className="text-sm text-gray-500 dark:text-gray-300">{project.size}</div>
                         </td>
