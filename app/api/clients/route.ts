@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
 
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '6');
+    const limit = parseInt(searchParams.get('limit') || '12');
 
     const total = await Client.countDocuments();
     const locations = await Client.find()

@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { FaHandshake } from "react-icons/fa";
-import { HiOutlineMail } from "react-icons/hi";
 
 interface Client {
   _id: string;

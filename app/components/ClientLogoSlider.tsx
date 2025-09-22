@@ -23,7 +23,6 @@ export default function ClientLogoSlider() {
         const response = await fetch('/api/clients');
         const data = await response.json();
 
-        // Deduplicate by _id
         const uniqueClients = data.locations.filter(
           (client: Client, index: number, self: Client[]) =>
             index === self.findIndex((c) => c._id === client._id)
@@ -40,26 +39,23 @@ export default function ClientLogoSlider() {
     fetchClients();
   }, []);
 
-  // Auto-scroll effect
   useEffect(() => {
     const slider = sliderRef.current;
     if (!slider || clients.length === 0) return;
 
     let animationFrameId: number;
-    let speed = 0.5; // slower for smoother marquee
+    let speed = 0.5;
     let position = 0;
-    const totalWidth = slider.scrollWidth / 2; // width of one full set
+
+    const totalWidth = slider.scrollWidth / 2; // since we duplicate items
 
     const animate = () => {
       if (!isPaused.current) {
         position -= speed;
 
         if (Math.abs(position) >= totalWidth) {
-          position = 0; // reset
-          slider.style.transition = 'none';
-          slider.style.transform = `translateX(${position}px)`;
-          slider.offsetHeight; // force reflow
-          slider.style.transition = '';
+          // Reset when first batch has fully scrolled
+          position = 0;
         }
 
         slider.style.transform = `translateX(${position}px)`;
@@ -106,10 +102,10 @@ export default function ClientLogoSlider() {
           className="flex w-max"
           style={{ willChange: 'transform' }}
         >
-          {/* Render clients exactly once */}
-          {clients.map((client) => (
-            <div 
-              key={client._id}
+          {/* Duplicate clients for seamless infinite loop */}
+          {[...clients, ...clients].map((client, idx) => (
+            <div
+              key={`${client._id}-${idx}`}
               className="w-40 h-20 flex items-center justify-center flex-shrink-0 px-4"
             >
               <div className="relative w-full h-full">
